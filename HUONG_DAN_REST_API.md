@@ -24,6 +24,12 @@ $router->get('/api/demo', 'api@index');
 $router->post('/api/demo', 'api@tours');
 ```
 
+Tuong tu project mau, neu route co khoang trang thi se tu dong doi sang dau `-`:
+
+```php
+$router->get('/home index', 'home@index'); // truy cap bang /home-index
+```
+
 Co the dung tham so URL:
 
 ```php

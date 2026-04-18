@@ -36,10 +36,7 @@ class Router
 
     private function addRoute($method, $path, $handler)
     {
-        $path = '/' . trim($path, '/');
-        if ($path === '//') {
-            $path = '/';
-        }
+        $path = $this->normalizePath($path);
 
         $regex = preg_replace('#:([a-zA-Z_][a-zA-Z0-9_]*)#', '(?P<$1>[^/]+)', $path);
         $regex = '#^' . $regex . '$#';
@@ -54,10 +51,7 @@ class Router
     public function dispatch($requestPath, $requestMethod)
     {
         $method = strtoupper($requestMethod);
-        $path = '/' . trim($requestPath, '/');
-        if ($path === '//') {
-            $path = '/';
-        }
+        $path = $this->normalizePath($requestPath);
 
         if (!isset($this->routes[$method])) {
             return false;
@@ -82,6 +76,17 @@ class Router
         }
 
         return false;
+    }
+
+    private function normalizePath($path)
+    {
+        $path = str_replace(' ', '-', (string)$path);
+        $path = preg_replace('#/+#', '/', $path);
+        $path = '/' . trim($path, '/');
+        if ($path === '//') {
+            $path = '/';
+        }
+        return $path;
     }
 
     private function executeHandler($handler, $params = [], $namedParams = [])
