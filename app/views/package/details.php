@@ -48,13 +48,13 @@
 						</button>
 						<ul class="summary-list">
 							<li><span>Loại gói</span><strong><?php echo htmlentities(
-																	$data["package"]->PackageType,
+																	Helper::vi($data["package"]->PackageType),
 																); ?></strong></li>
 							<li><span>Địa điểm</span><strong><?php echo htmlentities(
-																	$data["package"]->PackageLocation,
+																	Helper::vi($data["package"]->PackageLocation),
 																); ?></strong></li>
 							<li><span>Thời gian tour</span><strong><?php echo htmlentities(
-																		$data["package"]->TourDuration,
+																		Helper::vi($data["package"]->TourDuration),
 																	); ?></strong></li>
 							<li><span>Giá</span><strong><?php echo Controller::formatVND($data["package"]->PackagePrice); ?></strong></li>
 						</ul>

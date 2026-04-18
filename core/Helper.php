@@ -209,4 +209,45 @@ class Helper {
     public static function randomString($length = 32) {
         return bin2hex(random_bytes($length / 2));
     }
+
+    /**
+     * Convert common Vietnamese text without accents to accented text.
+     * Useful for legacy seed data displayed on UI.
+     * @param string $text
+     * @return string
+     */
+    public static function vi($text) {
+        $value = trim((string)$text);
+        if ($value === '') {
+            return $value;
+        }
+
+        static $map = [
+            'kham pha' => 'Khám phá',
+            'nghi duong' => 'Nghỉ dưỡng',
+            'van hoa' => 'Văn hóa',
+            'bien dao' => 'Biển đảo',
+            'cao cap' => 'Cao cấp',
+            'da nang' => 'Đà Nẵng',
+            'hue' => 'Huế',
+            'hoi an' => 'Hội An',
+            'da lat' => 'Đà Lạt',
+            'nha trang' => 'Nha Trang',
+            'phu quoc' => 'Phú Quốc',
+            'quy nhon' => 'Quy Nhơn',
+            'ha noi' => 'Hà Nội',
+            'hai phong' => 'Hải Phòng',
+            'can tho' => 'Cần Thơ',
+            '3 ngay 2 dem' => '3 ngày 2 đêm',
+            '2 ngay 1 dem' => '2 ngày 1 đêm',
+            '4 ngay 3 dem' => '4 ngày 3 đêm',
+        ];
+
+        $normalized = preg_replace('/\s+/', ' ', mb_strtolower($value, 'UTF-8'));
+        if (isset($map[$normalized])) {
+            return $map[$normalized];
+        }
+
+        return $value;
+    }
 }

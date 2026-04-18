@@ -46,7 +46,7 @@
 						<?php foreach ($data["locations"] as $loc): ?>
 							<option value="<?php echo htmlentities(
            $loc->PackageLocation,
-       ); ?>"><?php echo htmlentities($loc->PackageLocation); ?></option>
+       ); ?>"><?php echo htmlentities(Helper::vi($loc->PackageLocation)); ?></option>
 						<?php endforeach; ?>
 					</select>
 					<small class="helper-text" style="display: block; margin-top: 0.5rem; color: var(--muted); font-size: 0.85rem;">Chọn địa điểm cụ thể hoặc để trống để xem tất cả</small>
@@ -100,7 +100,7 @@
 					<?php foreach ($data["packages"] as $package): ?>
 						<div class="tour-card">
 							<!-- Tour Type Badge -->
-							<div class="badge"><?php echo htmlentities($package->PackageType); ?></div>
+							<div class="badge"><?php echo htmlentities(Helper::vi($package->PackageType)); ?></div>
 							
 							<!-- Image -->
 							<div class="tilt">
@@ -120,7 +120,7 @@
 											<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
 											<circle cx="12" cy="10" r="3"></circle>
 										</svg>
-										<?php echo htmlentities($package->PackageLocation); ?>
+										<?php echo htmlentities(Helper::vi($package->PackageLocation)); ?>
 									</div>
 								</div>
 							
@@ -136,7 +136,7 @@
 										<circle cx="12" cy="12" r="10"></circle>
 										<polyline points="12 6 12 12 16 14"></polyline>
 									</svg>
-									<span><?php echo htmlentities($package->TourDuration); ?></span>
+									<span><?php echo htmlentities(Helper::vi($package->TourDuration)); ?></span>
 								</div>
 
 								<!-- Price -->
