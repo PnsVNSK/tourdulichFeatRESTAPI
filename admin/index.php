@@ -10,7 +10,7 @@ if(isset($_POST['login']))
 	if (empty($uname) || empty($password)) {
 		$loginError = "Vui lòng nhập đầy đủ thông tin";
 	} else {
-		$sql = "SELECT UserName,Password FROM admin WHERE UserName=:uname";
+		$sql = "SELECT UserName,Password FROM tbladmin WHERE UserName=:uname";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':uname', $uname, PDO::PARAM_STR);
 		$query->execute();
@@ -25,7 +25,7 @@ if(isset($_POST['login']))
 					$passwordValid = true;
 					// Upgrade to password_hash
 					$newHash = password_hash($password, PASSWORD_DEFAULT);
-					$updateSql = "UPDATE admin SET Password=:newpassword WHERE UserName=:uname";
+					$updateSql = "UPDATE tbladmin SET Password=:newpassword WHERE UserName=:uname";
 					$updateQuery = $dbh->prepare($updateSql);
 					$updateQuery->bindParam(':uname', $uname, PDO::PARAM_STR);
 					$updateQuery->bindParam(':newpassword', $newHash, PDO::PARAM_STR);

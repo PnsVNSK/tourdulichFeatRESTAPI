@@ -185,33 +185,33 @@ INSERT INTO `tbladmin` VALUES
 (1, 'admin', 'f925916e2754e5e03f75dd58a5733251', '2017-05-13 11:18:49');
 
 INSERT INTO `tblusers` VALUES
-(12, 'Le Van Uy', '0763165881', 'leuy26011@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', '2025-11-20 04:20:33', NULL, NULL, NULL, NULL, NULL),
-(13, 'Le Van Uy', '0389378485', 'leuy260105@gmail.com', '258d88e5ebfa52d32ad49bf932146263', '2025-11-21 03:14:09', NULL, NULL, NULL, NULL, NULL);
+(12, 'Le Van Uy', '0763165881', 'leuy26011@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2025-11-20 04:20:33', NULL, NULL, NULL, NULL, NULL),
+(13, 'Le Van Uy', '0389378485', 'leuy260105@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2025-11-21 03:14:09', NULL, NULL, NULL, NULL, NULL);
 
 -- Du lieu cu ben tren duoc GIU NGUYEN.
 -- Duoi day la du lieu bo sung de test CRUD (20 dong moi bang chinh).
 
 INSERT INTO `tblusers` (`id`, `FullName`, `MobileNumber`, `EmailId`, `Password`, `Address`, `DateOfBirth`, `Gender`) VALUES
-(101, 'User 01', '0910000001', 'user01@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Da Nang', '1998-01-01', 'Nam'),
-(102, 'User 02', '0910000002', 'user02@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Hue', '1998-01-02', 'Nu'),
-(103, 'User 03', '0910000003', 'user03@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Hoi An', '1998-01-03', 'Nam'),
-(104, 'User 04', '0910000004', 'user04@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Da Lat', '1998-01-04', 'Nu'),
-(105, 'User 05', '0910000005', 'user05@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Nha Trang', '1998-01-05', 'Nam'),
-(106, 'User 06', '0910000006', 'user06@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Phu Quoc', '1998-01-06', 'Nu'),
-(107, 'User 07', '0910000007', 'user07@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Quy Nhon', '1998-01-07', 'Nam'),
-(108, 'User 08', '0910000008', 'user08@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Ha Noi', '1998-01-08', 'Nu'),
-(109, 'User 09', '0910000009', 'user09@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Hai Phong', '1998-01-09', 'Nam'),
-(110, 'User 10', '0910000010', 'user10@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Can Tho', '1998-01-10', 'Nu'),
-(111, 'User 11', '0910000011', 'user11@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Da Nang', '1998-01-11', 'Nam'),
-(112, 'User 12', '0910000012', 'user12@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Hue', '1998-01-12', 'Nu'),
-(113, 'User 13', '0910000013', 'user13@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Hoi An', '1998-01-13', 'Nam'),
-(114, 'User 14', '0910000014', 'user14@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Da Lat', '1998-01-14', 'Nu'),
-(115, 'User 15', '0910000015', 'user15@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Nha Trang', '1998-01-15', 'Nam'),
-(116, 'User 16', '0910000016', 'user16@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Phu Quoc', '1998-01-16', 'Nu'),
-(117, 'User 17', '0910000017', 'user17@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Quy Nhon', '1998-01-17', 'Nam'),
-(118, 'User 18', '0910000018', 'user18@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Ha Noi', '1998-01-18', 'Nu'),
-(119, 'User 19', '0910000019', 'user19@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Hai Phong', '1998-01-19', 'Nam'),
-(120, 'User 20', '0910000020', 'user20@gmail.com', '17b9cdbb06619ebae36bfeb59dd89449', 'Can Tho', '1998-01-20', 'Nu');
+(101, 'User 01', '0910000001', 'user01@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Da Nang', '1998-01-01', 'Nam'),
+(102, 'User 02', '0910000002', 'user02@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Hue', '1998-01-02', 'Nu'),
+(103, 'User 03', '0910000003', 'user03@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Hoi An', '1998-01-03', 'Nam'),
+(104, 'User 04', '0910000004', 'user04@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Da Lat', '1998-01-04', 'Nu'),
+(105, 'User 05', '0910000005', 'user05@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Nha Trang', '1998-01-05', 'Nam'),
+(106, 'User 06', '0910000006', 'user06@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Phu Quoc', '1998-01-06', 'Nu'),
+(107, 'User 07', '0910000007', 'user07@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Quy Nhon', '1998-01-07', 'Nam'),
+(108, 'User 08', '0910000008', 'user08@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Ha Noi', '1998-01-08', 'Nu'),
+(109, 'User 09', '0910000009', 'user09@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Hai Phong', '1998-01-09', 'Nam'),
+(110, 'User 10', '0910000010', 'user10@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Can Tho', '1998-01-10', 'Nu'),
+(111, 'User 11', '0910000011', 'user11@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Da Nang', '1998-01-11', 'Nam'),
+(112, 'User 12', '0910000012', 'user12@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Hue', '1998-01-12', 'Nu'),
+(113, 'User 13', '0910000013', 'user13@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Hoi An', '1998-01-13', 'Nam'),
+(114, 'User 14', '0910000014', 'user14@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Da Lat', '1998-01-14', 'Nu'),
+(115, 'User 15', '0910000015', 'user15@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Nha Trang', '1998-01-15', 'Nam'),
+(116, 'User 16', '0910000016', 'user16@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Phu Quoc', '1998-01-16', 'Nu'),
+(117, 'User 17', '0910000017', 'user17@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Quy Nhon', '1998-01-17', 'Nam'),
+(118, 'User 18', '0910000018', 'user18@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Ha Noi', '1998-01-18', 'Nu'),
+(119, 'User 19', '0910000019', 'user19@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Hai Phong', '1998-01-19', 'Nam'),
+(120, 'User 20', '0910000020', 'user20@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Can Tho', '1998-01-20', 'Nu');
 
 INSERT INTO `tbltourpackages` (`PackageId`, `PackageName`, `PackageType`, `TourDuration`, `PackageLocation`, `PackagePrice`, `PackageFetures`, `PackageDetails`, `PackageImage`) VALUES
 (201, 'Đà Nẵng Biển Ngọc 3N2Đ', 'Nghi duong', '3 ngay 2 dem', 'Da Nang', 3100000, 'Khach san 3 sao', 'Ngày 1 tham quan bán đảo Sơn Trà và biển Mỹ Khê. Ngày 2 đi Bà Nà Hills, tối tự do ăn đêm. Ngày 3 mua sắm đặc sản và kết thúc hành trình.', 'tour01.jpg'),

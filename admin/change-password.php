@@ -23,7 +23,7 @@ if(isset($_POST['submit']))
 	} elseif (strlen($newpassword) < 6) {
 		$error = "Mật khẩu mới phải có ít nhất 6 ký tự";
 	} else {
-		$sql = "SELECT Password FROM admin WHERE UserName=:username";
+		$sql = "SELECT Password FROM tbladmin WHERE UserName=:username";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':username', $username, PDO::PARAM_STR);
 		$query->execute();
@@ -42,7 +42,7 @@ if(isset($_POST['submit']))
 			
 			if ($passwordValid) {
 				$hashedPassword = password_hash($newpassword, PASSWORD_DEFAULT);
-				$con = "UPDATE admin SET Password=:newpassword WHERE UserName=:username";
+				$con = "UPDATE tbladmin SET Password=:newpassword WHERE UserName=:username";
 				$chngpwd1 = $dbh->prepare($con);
 				$chngpwd1->bindParam(':username', $username, PDO::PARAM_STR);
 				$chngpwd1->bindParam(':newpassword', $hashedPassword, PDO::PARAM_STR);
