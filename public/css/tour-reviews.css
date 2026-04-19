@@ -1,0 +1,159 @@
+/* Đánh giá tour — chi tiết gói */
+
+.tour-rating-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.tour-rating-inline__score {
+  font-size: 1.15rem;
+  color: var(--brand-dark);
+}
+
+.tour-rating-inline__stars .star-on,
+.tour-review-item__stars .star-on,
+.tour-reviews__hero-stars .star-on {
+  color: #f5b301;
+}
+
+.tour-rating-inline__stars .star-dim,
+.tour-review-item__stars .star-dim,
+.tour-reviews__hero-stars .star-dim {
+  color: #ddd;
+}
+
+.tour-rating-inline__stars {
+  letter-spacing: 0.05em;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.tour-rating-inline__count {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.tour-reviews__hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--brand-soft), #fff8f0);
+  border: 1px solid var(--border);
+}
+
+.tour-reviews__hero-score {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--brand-dark);
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.tour-reviews__hero-stars {
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+.tour-reviews__hero-count {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.tour-reviews__form {
+  margin-bottom: 1.5rem;
+  padding: 1rem 0 1.25rem;
+  border-bottom: 1px dashed var(--border);
+}
+
+.tour-reviews__form h4 {
+  margin-top: 0;
+  font-size: 1.15rem;
+}
+
+.tour-reviews__select {
+  max-width: 220px;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.tour-reviews__already {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--success);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.tour-reviews__login-hint {
+  margin-bottom: 1rem;
+}
+
+.tour-reviews__empty {
+  margin-bottom: 1rem;
+}
+
+.tour-reviews__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.tour-review-item {
+  padding: 1rem 1.15rem;
+  border-radius: 0.85rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+}
+
+.tour-review-item__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.35rem;
+}
+
+.tour-review-item__name {
+  font-size: 1rem;
+}
+
+.tour-review-item__date {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.tour-review-item__stars {
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+.tour-review-item__note {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.label-like {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}

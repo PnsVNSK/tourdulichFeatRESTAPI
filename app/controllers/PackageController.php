@@ -28,11 +28,19 @@ class PackageController extends Controller {
         $itineraryModel = $this->model('ItineraryModel');
         $itineraries = $itineraryModel->getByPackageId($id);
 
-        $reviewModel = $this->model('ReviewModel');
-        $reviewStats = $reviewModel ? $reviewModel->getStatsByPackageId((int) $id) : (object) ['avg_rating' => null, 'review_count' => 0];
-        $reviews = $reviewModel ? $reviewModel->getReviewsByPackageId((int) $id, 50) : [];
-        $loginEmail = isset($_SESSION['login']) && strlen($_SESSION['login']) > 0 ? $_SESSION['login'] : '';
-        $userHasReviewed = $loginEmail && $reviewModel ? $reviewModel->userHasReviewed((int) $id, $loginEmail) : false;
+        $reviewStats = (object) ['avg_rating' => null, 'review_count' => 0];
+        $reviews = [];
+        $userHasReviewed = false;
+        if ($package) {
+            $reviewModel = $this->model('ReviewModel');
+            if ($reviewModel) {
+                $pid = (int) $package->PackageId;
+                $reviewStats = $reviewModel->getStatsByPackageId($pid);
+                $reviews = $reviewModel->getReviewsByPackageId($pid, 50);
+                $loginEmail = isset($_SESSION['login']) && strlen($_SESSION['login']) > 0 ? $_SESSION['login'] : '';
+                $userHasReviewed = $loginEmail ? $reviewModel->userHasReviewed($pid, $loginEmail) : false;
+            }
+        }
 
         $data = [
             'package' => $package,

@@ -149,7 +149,7 @@
 								</div>
 								<div class="form-group">
 									<label for="review-note">Ghi chú đánh giá</label>
-									<textarea id="review-note" name="note" rows="3" maxlength="1000" placeholder="Chia sẻ trải nghiệm của bạn (tối đa 1000 ký tự)" required></textarea>
+									<textarea id="review-note" name="note" rows="3" maxlength="1000" placeholder="Ghi chú (tuỳ chọn, tối đa 1000 ký tự)"></textarea>
 								</div>
 								<button type="submit" name="submit_review" value="1" class="btn">Gửi đánh giá</button>
 							</form>
