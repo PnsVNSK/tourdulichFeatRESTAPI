@@ -15,7 +15,7 @@ class Database {
             define('DB_PASS', getenv('DB_PASS') ?: '');
         }
         if (!defined('DB_NAME')) {
-            define('DB_NAME', getenv('DB_NAME') ?: 'webdulich');
+            define('DB_NAME', getenv('DB_NAME') ?: 'tour');
         }
 
         $this->connect();

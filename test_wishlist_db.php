@@ -33,7 +33,7 @@ if (file_exists($dotenv_path)) {
 $dbHost = getenv('DB_HOST') ?: 'localhost';
 $dbUser = getenv('DB_USER') ?: 'root';
 $dbPass = getenv('DB_PASS') ?: '';
-$dbName = getenv('DB_NAME') ?: 'webdulich';
+$dbName = getenv('DB_NAME') ?: 'tour';
 
 echo "<h2>1. Database Connection Info</h2>";
 echo "<pre>";
