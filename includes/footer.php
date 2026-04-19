@@ -14,6 +14,7 @@
 		</div>
 		<div>
 			<h5>Liên hệ</h5>
+			<p><a href="<?php echo BASE_URL; ?>enquiry">Form liên hệ</a></p>
 			<p>Hotline: 0987654321</p>
 			<p>Email: hello@gotravel.vn</p>
 		</div>

@@ -12,7 +12,6 @@ $isLoggedIn = !empty($_SESSION["login"]); ?>
 					<a class="link-muted" href="<?php echo BASE_URL; ?>user/profile">Hồ sơ</a>
 					<a class="link-muted" href="<?php echo BASE_URL; ?>user/change-password">Đổi mật khẩu</a>
 					<a class="link-muted" href="<?php echo BASE_URL; ?>tour/history">Lịch sử tour</a>
-					<a class="link-muted" href="<?php echo BASE_URL; ?>enquiry/inbox">Hộp thư liên hệ</a>
 					<a class="btn btn-ghost btn-compact" href="<?php echo BASE_URL; ?>user/logout">Đăng xuất</a>
 				<?php else: ?>
 					<a class="link-muted" href="<?php echo BASE_URL; ?>admin/index.php">Quản trị</a>
@@ -41,10 +40,8 @@ $isLoggedIn = !empty($_SESSION["login"]); ?>
 				<a href="<?php echo BASE_URL; ?>package">Gói du lịch</a>
 				<a href="<?php echo BASE_URL; ?>page/privacy">Chính sách</a>
 				<a href="<?php echo BASE_URL; ?>page/terms">Điều khoản</a>
-				<a href="<?php echo BASE_URL; ?>page/contact">Liên hệ</a>
-				<a href="<?php echo BASE_URL; ?>enquiry">Gửi tin nhắn</a>
+				<a href="<?php echo BASE_URL; ?>enquiry">Liên hệ</a>
 				<?php if ($isLoggedIn): ?>
-					<a href="<?php echo BASE_URL; ?>enquiry/inbox">Hộp thư</a>
 					<a href="<?php echo BASE_URL; ?>user/account" class="account-link"><i class="fas fa-user-circle"></i> Tài khoản</a>
 					<a href="#" data-modal-target="support-modal">Yêu cầu hỗ trợ</a>
 				<?php else: ?>

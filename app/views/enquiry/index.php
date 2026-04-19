@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>GoTravel | Gửi tin nhắn liên hệ</title>
+	<title>GoTravel | Liên hệ</title>
 	<link rel="stylesheet" href="<?php echo BASE_URL; ?>public/css/style.css">
 </head>
 <body style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('<?php echo BASE_URL; ?>admin/packageimages/tour_halong.webp') no-repeat center center; background-size: cover;">
@@ -11,8 +11,8 @@
 <main class="page">
 	<div class="container">
 		<section class="page-head">
-			<h1 style="color: #fff">Gửi tin nhắn cho GoTravel</h1>
-			<p style="color: #e5e7eb">Soạn tin nhắn bên dưới — đội ngũ sẽ phản hồi qua cùng email bạn đăng ký.<?php if (!empty($_SESSION['login'])): ?> Bạn có thể xem phản hồi tại <a href="<?php echo BASE_URL; ?>enquiry/inbox" style="color:#fff;text-decoration:underline">Hộp thư</a>.<?php endif; ?></p>
+			<h1 style="color: #fff">Liên hệ</h1>
+			<p style="color: #e5e7eb">Điền form bên dưới để gửi tin nhắn — chúng tôi phản hồi qua email bạn cung cấp.<?php if (!empty($_SESSION['login'])): ?> Xem phản hồi đã gửi tại <a href="<?php echo BASE_URL; ?>enquiry/inbox" style="color:#fff;text-decoration:underline">hộp thư</a>.<?php endif; ?></p>
 		</section>
 		<section class="card enquiry-card" style="background: rgba(255,255,255,0.96); border: none;">
 			<?php if (!empty($error)) { ?><div class="alert error"><strong>Lỗi:</strong> <?php echo htmlentities($error); ?></div><?php } ?>
