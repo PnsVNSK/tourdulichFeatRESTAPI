@@ -147,34 +147,33 @@ CREATE TABLE `tbltourreviews` (
 -- ============================================
 -- FOREIGN KEYS
 -- ============================================
--- Quy uoc dat ten: fk_<bang_con>_<cot_fk>__<bang_cha>_<cot_pk>
 
 ALTER TABLE `tblbooking`
-ADD CONSTRAINT `fk_tblbooking_PackageId__tbltourpackages_PackageId`
+ADD CONSTRAINT `fk_booking_package` 
 FOREIGN KEY (`PackageId`) REFERENCES `tbltourpackages`(`PackageId`) 
 ON DELETE CASCADE,
-ADD CONSTRAINT `fk_tblbooking_UserEmail__tblusers_EmailId`
+ADD CONSTRAINT `fk_booking_user` 
 FOREIGN KEY (`UserEmail`) REFERENCES `tblusers`(`EmailId`) 
 ON DELETE CASCADE;
 
 ALTER TABLE `tblwishlist`
-ADD CONSTRAINT `fk_tblwishlist_PackageId__tbltourpackages_PackageId`
+ADD CONSTRAINT `fk_wishlist_package` 
 FOREIGN KEY (`PackageId`) REFERENCES `tbltourpackages`(`PackageId`) 
 ON DELETE CASCADE,
-ADD CONSTRAINT `fk_tblwishlist_UserEmail__tblusers_EmailId`
+ADD CONSTRAINT `fk_wishlist_user` 
 FOREIGN KEY (`UserEmail`) REFERENCES `tblusers`(`EmailId`) 
 ON DELETE CASCADE;
 
 ALTER TABLE `tblitinerary`
-ADD CONSTRAINT `fk_tblitinerary_PackageId__tbltourpackages_PackageId`
+ADD CONSTRAINT `fk_itinerary_package` 
 FOREIGN KEY (`PackageId`) REFERENCES `tbltourpackages`(`PackageId`) 
 ON DELETE CASCADE;
 
 ALTER TABLE `tbltourreviews`
-ADD CONSTRAINT `fk_tbltourreviews_PackageId__tbltourpackages_PackageId`
+ADD CONSTRAINT `fk_tourreviews_package`
 FOREIGN KEY (`PackageId`) REFERENCES `tbltourpackages`(`PackageId`)
 ON DELETE CASCADE,
-ADD CONSTRAINT `fk_tbltourreviews_UserEmail__tblusers_EmailId`
+ADD CONSTRAINT `fk_tourreviews_user`
 FOREIGN KEY (`UserEmail`) REFERENCES `tblusers`(`EmailId`)
 ON DELETE CASCADE;
 
