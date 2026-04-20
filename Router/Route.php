@@ -34,6 +34,12 @@ $router->get('/api/wishlist/:email', 'api@wishlist');
 $router->post('/api/wishlist', 'api@wishlist');
 $router->delete('/api/wishlist/:email/:packageId', 'api@wishlist');
 
+// Reviews
+$router->get('/api/tours/:id/reviews', 'api@reviews');
+$router->post('/api/tours/:id/reviews', 'api@reviews');
+$router->patch('/api/tours/:id/reviews/me', 'api@reviews');
+$router->delete('/api/tours/:id/reviews/me', 'api@reviews');
+
 // OPTIONS for browser preflight
 $router->options('/api', 'api@index');
 $router->options('/api/tours', 'api@tours');
@@ -51,3 +57,5 @@ $router->options('/api/bookings/:email', 'api@bookings');
 $router->options('/api/wishlist', 'api@wishlist');
 $router->options('/api/wishlist/:email', 'api@wishlist');
 $router->options('/api/wishlist/:email/:packageId', 'api@wishlist');
+$router->options('/api/tours/:id/reviews', 'api@reviews');
+$router->options('/api/tours/:id/reviews/me', 'api@reviews');

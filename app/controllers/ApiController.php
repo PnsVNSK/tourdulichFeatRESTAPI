@@ -7,6 +7,7 @@ class ApiController extends Controller
     private $bookingModel;
     private $wishlistModel;
     private $itineraryModel;
+    private $reviewModel;
 
     public function __construct()
     {
@@ -15,6 +16,7 @@ class ApiController extends Controller
         $this->bookingModel = $this->model('ApiBookingModel');
         $this->wishlistModel = $this->model('WishlistModel');
         $this->itineraryModel = $this->model('ItineraryModel');
+        $this->reviewModel = $this->model('ApiReviewModel');
     }
 
     public function index()
@@ -37,6 +39,10 @@ class ApiController extends Controller
                 'GET /api/wishlist/{email}',
                 'POST /api/wishlist',
                 'DELETE /api/wishlist/{email}/{packageId}',
+                'GET /api/tours/{id}/reviews',
+                'POST /api/tours/{id}/reviews',
+                'PATCH /api/tours/{id}/reviews/me',
+                'DELETE /api/tours/{id}/reviews/me',
             ],
         ]);
     }
@@ -252,6 +258,108 @@ class ApiController extends Controller
             }
             $this->wishlistModel->removeFromWishlist(urldecode($email), (int)$packageId);
             return $this->sendJson(['message' => 'Xoa wishlist thanh cong']);
+        }
+
+        return $this->sendJson(['error' => 'Method khong ho tro'], 405);
+    }
+
+    public function reviews($tourId = null, $scope = null)
+    {
+        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        if ($method === 'OPTIONS') {
+            return $this->sendJson([]);
+        }
+        if ($tourId === null) {
+            return $this->sendJson(['error' => 'Thieu id tour'], 400);
+        }
+
+        $tour = $this->tourModel->getById((int)$tourId);
+        if (!$tour) {
+            return $this->sendJson(['error' => 'Khong tim thay tour'], 404);
+        }
+
+        if ($method === 'GET' && $scope === null) {
+            $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50;
+            $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+            return $this->sendJson([
+                'data' => [
+                    'stats' => $this->reviewModel->getStatsByTourId((int)$tourId),
+                    'items' => $this->reviewModel->getByTourId((int)$tourId, $limit, $offset),
+                ],
+            ]);
+        }
+
+        if ($method === 'POST' && $scope === null) {
+            $payload = $this->getJsonInput();
+            if ($payload === null) {
+                return $this->sendJson(['error' => 'JSON khong hop le'], 400);
+            }
+            if (empty($payload['userEmail'])) {
+                return $this->sendJson(['error' => 'Can userEmail'], 422);
+            }
+            $rating = isset($payload['rating']) ? (int)$payload['rating'] : 0;
+            if ($rating < 1 || $rating > 5) {
+                return $this->sendJson(['error' => 'rating phai tu 1 den 5'], 422);
+            }
+            $note = isset($payload['note']) ? trim((string)$payload['note']) : '';
+            if (mb_strlen($note, 'UTF-8') > 1000) {
+                return $this->sendJson(['error' => 'note toi da 1000 ky tu'], 422);
+            }
+            if ($this->reviewModel->existsUserReview((int)$tourId, $payload['userEmail'])) {
+                return $this->sendJson(['error' => 'User da danh gia tour nay'], 409);
+            }
+            $this->reviewModel->create((int)$tourId, $payload['userEmail'], $rating, $note);
+            return $this->sendJson([
+                'message' => 'Gui danh gia thanh cong',
+                'data' => $this->reviewModel->getUserReview((int)$tourId, $payload['userEmail']),
+            ], 201);
+        }
+
+        if ($method === 'PATCH' && $scope === 'me') {
+            $payload = $this->getJsonInput();
+            if ($payload === null) {
+                return $this->sendJson(['error' => 'JSON khong hop le'], 400);
+            }
+            if (empty($payload['userEmail'])) {
+                return $this->sendJson(['error' => 'Can userEmail'], 422);
+            }
+            if (!$this->reviewModel->existsUserReview((int)$tourId, $payload['userEmail'])) {
+                return $this->sendJson(['error' => 'Khong tim thay danh gia cua user'], 404);
+            }
+            $rating = isset($payload['rating']) ? (int)$payload['rating'] : 0;
+            if ($rating < 1 || $rating > 5) {
+                return $this->sendJson(['error' => 'rating phai tu 1 den 5'], 422);
+            }
+            $note = isset($payload['note']) ? trim((string)$payload['note']) : '';
+            if (mb_strlen($note, 'UTF-8') > 1000) {
+                return $this->sendJson(['error' => 'note toi da 1000 ky tu'], 422);
+            }
+            $this->reviewModel->updateByUser((int)$tourId, $payload['userEmail'], $rating, $note);
+            return $this->sendJson([
+                'message' => 'Cap nhat danh gia thanh cong',
+                'data' => $this->reviewModel->getUserReview((int)$tourId, $payload['userEmail']),
+            ]);
+        }
+
+        if ($method === 'DELETE' && $scope === 'me') {
+            $payload = $this->getJsonInput();
+            if ($payload === null) {
+                $payload = [];
+            }
+            $userEmail = '';
+            if (!empty($payload['userEmail'])) {
+                $userEmail = $payload['userEmail'];
+            } elseif (!empty($_GET['userEmail'])) {
+                $userEmail = $_GET['userEmail'];
+            }
+            if ($userEmail === '') {
+                return $this->sendJson(['error' => 'Can userEmail (body hoac query)'], 422);
+            }
+            if (!$this->reviewModel->existsUserReview((int)$tourId, $userEmail)) {
+                return $this->sendJson(['error' => 'Khong tim thay danh gia cua user'], 404);
+            }
+            $this->reviewModel->deleteByUser((int)$tourId, $userEmail);
+            return $this->sendJson(['message' => 'Xoa danh gia thanh cong']);
         }
 
         return $this->sendJson(['error' => 'Method khong ho tro'], 405);
