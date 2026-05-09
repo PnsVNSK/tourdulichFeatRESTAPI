@@ -2,21 +2,21 @@
 
 class HomeController extends Controller {
     public function index() {
-        // Load the package model
+        // Khoi tao model goi tour
         $packageModel = $this->model('PackageModel');
 
-        // Pagination settings
+        // Cau hinh phan trang
         $toursPerPage = 6;
         $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
         $offset = ($currentPage - 1) * $toursPerPage;
 
-        // Get data from the model
+        // Lay du lieu tu model
         $packages = $packageModel->getFeaturedPackagesPaginated($toursPerPage, $offset);
         $totalTours = $packageModel->getTotalToursCount();
         $totalPages = ceil($totalTours / $toursPerPage);
         $locations = $packageModel->getDistinctLocations();
 
-        // Prepare data for the view
+        // Chuan bi du lieu cho view
         $data = [
             'packages' => $packages,
             'locations' => $locations,
@@ -25,7 +25,7 @@ class HomeController extends Controller {
             'totalTours' => $totalTours
         ];
 
-        // Load the view and pass data
+        // Render view kem du lieu
         $this->view('home/index', $data);
     }
 }

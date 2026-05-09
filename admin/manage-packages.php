@@ -26,7 +26,7 @@ if(isset($_GET['del']))
 $pageTitle = "GoTravel Admin | Quản lý gói tour";
 $currentPage = 'manage-packages';
 
-// Search functionality
+// Chuc nang tim kiem
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $searchType = isset($_GET['type']) ? trim($_GET['type']) : '';
 $searchLocation = isset($_GET['location']) ? trim($_GET['location']) : '';

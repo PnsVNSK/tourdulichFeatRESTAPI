@@ -30,7 +30,7 @@ class IssueController extends Controller {
             $description = trim($_POST['description'] ?? '');
             $email = $_SESSION['login'];
 
-            // Validate inputs
+            // Kiem tra du lieu dau vao
             if (empty($issue) || empty($description)) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin.";
                 header('location:' . BASE_URL . 'issue');

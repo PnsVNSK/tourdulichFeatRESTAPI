@@ -2,7 +2,7 @@
 class ItineraryModel extends Model
 {
     /**
-     * Get all itinerary items for a specific package
+     * lay tat ca muc lich trinh cua 1 goi tour
      */
     public function getByPackageId($packageId)
     {
@@ -16,7 +16,7 @@ class ItineraryModel extends Model
     }
 
     /**
-     * Get a single itinerary item by ID
+     * lay 1 muc lich trinh theo id
      */
     public function getById($id)
     {
@@ -28,7 +28,7 @@ class ItineraryModel extends Model
     }
 
     /**
-     * Create a new itinerary item
+     * tao muc lich trinh moi
      */
     public function create($packageId, $timeLabel, $activity, $sortOrder = 0)
     {
@@ -43,7 +43,7 @@ class ItineraryModel extends Model
     }
 
     /**
-     * Update an existing itinerary item
+     * cap nhat muc lich trinh
      */
     public function update($id, $timeLabel, $activity, $sortOrder = 0)
     {
@@ -61,7 +61,7 @@ class ItineraryModel extends Model
     }
 
     /**
-     * Delete an itinerary item
+     * xoa muc lich trinh
      */
     public function delete($id)
     {
@@ -72,7 +72,7 @@ class ItineraryModel extends Model
     }
 
     /**
-     * Get the next sort order for a package
+     * lay thu tu sap xep tiep theo cho goi tour
      */
     public function getNextSortOrder($packageId)
     {
@@ -87,7 +87,7 @@ class ItineraryModel extends Model
     }
 
     /**
-     * Count itinerary items for a package
+     * dem so muc lich trinh cua goi tour
      */
     public function countByPackageId($packageId)
     {

@@ -25,7 +25,7 @@ if($query -> execute()){
 $pageTitle = "GoTravel Admin | Quản lý người dùng";
 $currentPage = 'manage-users';
 
-// Search functionality
+// Chuc nang tim kiem
 $searchName = isset($_GET['name']) ? trim($_GET['name']) : '';
 $searchPhone = isset($_GET['phone']) ? trim($_GET['phone']) : '';
 $searchEmail = isset($_GET['email']) ? trim($_GET['email']) : '';

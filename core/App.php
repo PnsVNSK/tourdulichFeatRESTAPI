@@ -8,7 +8,7 @@ class App {
     public function __construct() {
         $url = $this->parseUrl();
 
-        // Determine controller
+        // Xac dinh controller can goi
         $controllerName = 'HomeController';
         if (!empty($url[0])) {
             $controllerCandidate = ucwords($url[0]) . 'Controller';
@@ -21,7 +21,7 @@ class App {
         require_once APP . '/controllers/' . $controllerName . '.php';
         $this->controller = new $controllerName;
 
-        // Determine method (support kebab-case and snake_case -> camelCase)
+        // Xac dinh method (ho tro kebab-case va snake_case sang camelCase)
         $methodName = 'index';
         if (isset($url[1])) {
             $rawMethod = $url[1];
@@ -30,7 +30,7 @@ class App {
                 $methodName = $camelMethod;
                 unset($url[1]);
             } elseif (method_exists($this->controller, $rawMethod)) {
-                // Fallback: allow exact method name if it exists
+                // Du phong: neu co dung ten method goc thi cho phep goi
                 $methodName = $rawMethod;
                 unset($url[1]);
             }
@@ -38,12 +38,12 @@ class App {
         $this->method = $methodName;
 
 
-        // Get params
+        // Lay tham so tren url
         $this->params = $url ? array_values($url) : [];
 
-        // Call the controller method with params (safe fallback to home/index)
+        // Goi method cua controller voi tham so, co du phong an toan
         if (!method_exists($this->controller, $this->method)) {
-            // Fallback to HomeController@index to avoid fatal errors
+            // Neu loi thi quay ve HomeController@index de tranh fatal error
             require_once APP . '/controllers/HomeController.php';
             $this->controller = new HomeController();
             $this->method = 'index';
@@ -58,7 +58,7 @@ class App {
         }
     }
 
-    // Convert strings like "forgot-password" or "reset_password" to "forgotPassword" / "resetPassword"
+    // Chuyen "forgot-password" hoac "reset_password" thanh camelCase
     private function toCamelCase($string) {
         $string = strtolower($string);
         $parts = preg_split('/[-_]+/', $string);

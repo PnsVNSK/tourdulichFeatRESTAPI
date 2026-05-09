@@ -9,7 +9,7 @@ header('location:index.php');
 else{
 $pid=intval($_GET['pid']);	
 
-// Handle Itinerary Add
+// Xu ly them lich trinh
 if(isset($_POST['addItinerary'])) {
 	$timeLabel = $_POST['timeLabel'];
 	$activity = $_POST['activity'];
@@ -32,7 +32,7 @@ if(isset($_POST['addItinerary'])) {
 	$itineraryMsg = "Đã thêm lộ trình thành công";
 }
 
-// Handle Itinerary Update
+// Xu ly sua lich trinh
 if(isset($_POST['updateItinerary'])) {
 	$id = intval($_POST['itineraryId']);
 	$timeLabel = $_POST['timeLabel'];
@@ -50,7 +50,7 @@ if(isset($_POST['updateItinerary'])) {
 	$itineraryMsg = "Đã cập nhật lộ trình thành công";
 }
 
-// Handle Itinerary Delete
+// Xu ly xoa lich trinh
 if(isset($_GET['delItinerary'])) {
 	$id = intval($_GET['delItinerary']);
 	$sql = "DELETE FROM tblitinerary WHERE ItineraryId = :id";
@@ -63,7 +63,7 @@ if(isset($_GET['delItinerary'])) {
 	exit;
 }
 
-// Handle Package Update
+// Xu ly cap nhat goi tour
 if(isset($_POST['submit']))
 {
 $pname = trim($_POST['packagename'] ?? '');
@@ -74,7 +74,7 @@ $pprice = intval($_POST['packageprice'] ?? 0);
 $pfeatures = trim($_POST['packagefeatures'] ?? '');
 $pdetails = trim($_POST['packagedetails'] ?? '');	
 
-// Validate inputs
+// Kiem tra du lieu dau vao
 if (empty($pname) || empty($ptype) || empty($plocation) || empty($tourduration) || $pprice <= 0 || empty($pfeatures) || empty($pdetails)) {
 	$error = "Vui lòng điền đầy đủ thông tin";
 } else {
@@ -93,14 +93,14 @@ $query->bindParam(':pdetails',$pdetails,PDO::PARAM_STR);
 }
 }
 
-	// Get package info
+	// Lay thong tin goi tour
 	$sql = "SELECT * from tbltourpackages where PackageId=:pid";
 	$query = $dbh -> prepare($sql);
 	$query -> bindParam(':pid', $pid, PDO::PARAM_INT);
 	$query->execute();
 	$package = $query->fetch(PDO::FETCH_OBJ);
 	
-	// Get itineraries
+	// Lay danh sach lich trinh
 	$sql = "SELECT * FROM tblitinerary WHERE PackageId = :pid ORDER BY SortOrder ASC, ItineraryId ASC";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':pid', $pid, PDO::PARAM_INT);
@@ -262,7 +262,7 @@ $query->bindParam(':pdetails',$pdetails,PDO::PARAM_STR);
 		<?php endif; ?>
 		
 		<script>
-		// Itinerary management
+		// Quan ly lich trinh
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.btn-edit-itinerary').forEach(btn => {
 				btn.addEventListener('click', function(e) {
@@ -287,7 +287,7 @@ $query->bindParam(':pdetails',$pdetails,PDO::PARAM_STR);
 			document.getElementById('btnAddItinerary').style.display = 'none';
 			document.getElementById('btnUpdateItinerary').style.display = 'inline-block';
 			
-			// Scroll to form
+			// Cuon den form
 			document.getElementById('itineraryForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
 		}
 		

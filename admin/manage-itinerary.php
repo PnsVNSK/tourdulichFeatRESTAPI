@@ -8,7 +8,7 @@ if(strlen($_SESSION['alogin']) == 0) {
 } else {
 	$pid = intval($_GET['pid']);
 	
-	// Get package info
+	// Lay thong tin goi tour
 	$sql = "SELECT PackageName FROM tbltourpackages WHERE PackageId = :pid";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':pid', $pid, PDO::PARAM_INT);
@@ -20,7 +20,7 @@ if(strlen($_SESSION['alogin']) == 0) {
 		exit;
 	}
 	
-	// Handle Add
+	// Xu ly them
 	if(isset($_POST['add'])) {
 		$timeLabel = $_POST['timeLabel'];
 		$activity = $_POST['activity'];
@@ -43,7 +43,7 @@ if(strlen($_SESSION['alogin']) == 0) {
 		$msg = "Đã thêm lộ trình thành công";
 	}
 	
-	// Handle Update
+	// Xu ly cap nhat
 	if(isset($_POST['update'])) {
 		$id = intval($_POST['id']);
 		$timeLabel = $_POST['timeLabel'];
@@ -61,7 +61,7 @@ if(strlen($_SESSION['alogin']) == 0) {
 		$msg = "Đã cập nhật lộ trình thành công";
 	}
 	
-	// Handle Delete
+	// Xu ly xoa
 	if(isset($_GET['del'])) {
 		$id = intval($_GET['del']);
 		$sql = "DELETE FROM tblitinerary WHERE ItineraryId = :id";
@@ -72,7 +72,7 @@ if(strlen($_SESSION['alogin']) == 0) {
 		$msg = "Đã xóa lộ trình thành công";
 	}
 	
-	// Get all itineraries
+	// Lay tat ca lich trinh
 	$sql = "SELECT * FROM tblitinerary WHERE PackageId = :pid ORDER BY SortOrder ASC, ItineraryId ASC";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':pid', $pid, PDO::PARAM_INT);
@@ -262,7 +262,7 @@ if(strlen($_SESSION['alogin']) == 0) {
 	</div>
 	
 	<script>
-		// Add click event to edit buttons
+		// Gan su kien click cho nut sua
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.btn-edit').forEach(btn => {
 				btn.addEventListener('click', function(e) {
@@ -287,11 +287,11 @@ if(strlen($_SESSION['alogin']) == 0) {
 			document.getElementById('btnAdd').style.display = 'none';
 			document.getElementById('btnUpdate').style.display = 'inline-block';
 			
-			// Highlight selected row
+			// To dam dong duoc chon
 			document.querySelectorAll('.itinerary-table tr').forEach(tr => tr.classList.remove('selected'));
 			if (row) row.classList.add('selected');
 			
-			// Scroll to form
+			// Cuon den form
 			document.getElementById('itineraryForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
 		}
 		
@@ -305,7 +305,7 @@ if(strlen($_SESSION['alogin']) == 0) {
 			document.getElementById('btnAdd').style.display = 'inline-block';
 			document.getElementById('btnUpdate').style.display = 'none';
 			
-			// Remove highlight
+			// Bo to dam
 			document.querySelectorAll('.itinerary-table tr').forEach(tr => tr.classList.remove('selected'));
 		}
 	</script>

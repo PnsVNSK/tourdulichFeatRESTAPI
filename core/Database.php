@@ -4,7 +4,7 @@ class Database {
     private $dbh;
 
     private function __construct() {
-        // DB credentials.
+        // Thong tin ket noi co so du lieu
         if (!defined('DB_HOST')) {
             define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
         }
@@ -61,7 +61,7 @@ class Database {
         try {
             $this->dbh->query("SELECT 1");
         } catch (PDOException $e) {
-            // 2006 / 2013: lost connection, reconnect transparently
+            // Loi 2006/2013: mat ket noi mysql thi tu dong ket noi lai
             $errorCode = isset($e->errorInfo[1]) ? (int)$e->errorInfo[1] : 0;
             if ($errorCode === 2006 || $errorCode === 2013) {
                 $this->connect();

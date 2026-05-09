@@ -1,12 +1,12 @@
 <?php
 /**
- * Helper Class - Utility functions for the application
- * Provides security, validation, and formatting helpers
+ * lop helper - cac ham ho tro cho ung dung
+ * cung cap cac ham bao mat, kiem tra va dinh dang
  */
 class Helper {
     
     /**
-     * Generate CSRF Token
+     * tao csrf token
      * @return string
      */
     public static function generateCSRFToken() {
@@ -17,7 +17,7 @@ class Helper {
     }
     
     /**
-     * Verify CSRF Token
+     * xac thuc csrf token
      * @param string $token
      * @return bool
      */
@@ -29,7 +29,7 @@ class Helper {
     }
     
     /**
-     * Get CSRF Token HTML Input
+     * tao o input html cho csrf token
      * @return string
      */
     public static function csrfField() {
@@ -38,7 +38,7 @@ class Helper {
     }
     
     /**
-     * Sanitize string input
+     * lam sach chuoi dau vao
      * @param string $input
      * @return string
      */
@@ -47,7 +47,7 @@ class Helper {
     }
     
     /**
-     * Validate email
+     * kiem tra email hop le
      * @param string $email
      * @return bool
      */
@@ -56,7 +56,7 @@ class Helper {
     }
     
     /**
-     * Validate phone number (10 digits)
+     * kiem tra so dien thoai 10 chu so
      * @param string $phone
      * @return bool
      */
@@ -65,7 +65,7 @@ class Helper {
     }
     
     /**
-     * Format price in VND
+     * dinh dang gia theo vnd
      * @param int|float $price
      * @return string
      */
@@ -74,7 +74,7 @@ class Helper {
     }
     
     /**
-     * Validate and sanitize filename
+     * kiem tra va lam sach ten file
      * @param string $filename
      * @return string
      */
@@ -85,7 +85,7 @@ class Helper {
     }
     
     /**
-     * Validate image file
+     * kiem tra file anh
      * @param array $file $_FILES array element
      * @param int $maxSize Maximum file size in bytes (default 5MB)
      * @return array ['valid' => bool, 'error' => string]
@@ -101,7 +101,7 @@ class Helper {
         $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
         $fileType = $file['type'];
         
-        // Verify MIME type
+        // Kiem tra mime type
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mimeType = finfo_file($finfo, $file['tmp_name']);
         finfo_close($finfo);
@@ -116,7 +116,7 @@ class Helper {
             return $result;
         }
         
-        // Verify it's actually an image
+        // Kiem tra day la file anh hop le
         $imageInfo = getimagesize($file['tmp_name']);
         if ($imageInfo === false) {
             $result['error'] = 'File không phải là hình ảnh hợp lệ';
@@ -128,7 +128,7 @@ class Helper {
     }
     
     /**
-     * Redirect with flash message
+     * chuyen huong kem thong bao session
      * @param string $url
      * @param string $message
      * @param string $type 'error' or 'msg'
@@ -142,7 +142,7 @@ class Helper {
     }
     
     /**
-     * Check if user is logged in
+     * kiem tra nguoi dung da dang nhap
      * @return bool
      */
     public static function isLoggedIn() {
@@ -150,7 +150,7 @@ class Helper {
     }
     
     /**
-     * Check if admin is logged in
+     * kiem tra admin da dang nhap
      * @return bool
      */
     public static function isAdminLoggedIn() {
@@ -158,7 +158,7 @@ class Helper {
     }
     
     /**
-     * Require user login
+     * yeu cau dang nhap nguoi dung
      * @param string $redirectUrl
      */
     public static function requireLogin($redirectUrl = '') {
@@ -171,7 +171,7 @@ class Helper {
     }
     
     /**
-     * Require admin login
+     * yeu cau dang nhap admin
      * @param string $redirectUrl
      */
     public static function requireAdminLogin($redirectUrl = 'index.php') {
@@ -182,7 +182,7 @@ class Helper {
     }
     
     /**
-     * Validate date format and value
+     * kiem tra dinh dang va gia tri ngay
      * @param string $date
      * @param string $format
      * @return bool
@@ -193,7 +193,7 @@ class Helper {
     }
     
     /**
-     * Escape output for HTML
+     * ma hoa output an toan cho html
      * @param string $string
      * @return string
      */
@@ -202,7 +202,7 @@ class Helper {
     }
     
     /**
-     * Generate random string
+     * tao chuoi ngau nhien
      * @param int $length
      * @return string
      */
@@ -211,8 +211,8 @@ class Helper {
     }
 
     /**
-     * Convert common Vietnamese text without accents to accented text.
-     * Useful for legacy seed data displayed on UI.
+     * chuyen chu viet khong dau thanh co dau
+     * dung cho du lieu mau cu hien thi tren giao dien
      * @param string $text
      * @return string
      */

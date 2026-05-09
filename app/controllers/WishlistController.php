@@ -1,7 +1,7 @@
 <?php
 class WishlistController extends Controller {
     /**
-     * Display user's wishlist page
+     * hien thi trang danh sach yeu thich
      */
     public function index() {
         if (strlen($_SESSION['login']) == 0) {
@@ -24,7 +24,7 @@ class WishlistController extends Controller {
     }
 
     /**
-     * Add tour to wishlist (AJAX endpoint)
+     * them tour vao yeu thich (ajax endpoint)
      */
     public function add($packageId = 0) {
         header('Content-Type: application/json');
@@ -34,7 +34,7 @@ class WishlistController extends Controller {
             exit;
         }
 
-        // Validate package ID
+        // Kiem tra package id hop le
         if ($packageId <= 0) {
             echo json_encode(['success' => false, 'message' => 'ID tour không hợp lệ']);
             exit;
@@ -57,7 +57,7 @@ class WishlistController extends Controller {
     }
 
     /**
-     * Remove tour from wishlist (AJAX endpoint)
+     * xoa tour khoi yeu thich (ajax endpoint)
      */
     public function remove($packageId = 0) {
         header('Content-Type: application/json');
@@ -79,7 +79,7 @@ class WishlistController extends Controller {
     }
 
     /**
-     * Toggle wishlist status (AJAX endpoint)
+     * dao trang thai yeu thich (ajax endpoint)
      */
     public function toggle($packageId = 0) {
         header('Content-Type: application/json');
@@ -89,7 +89,7 @@ class WishlistController extends Controller {
             exit;
         }
 
-        // Validate package ID
+        // Kiem tra package id hop le
         if ($packageId <= 0) {
             echo json_encode(['success' => false, 'message' => 'ID tour không hợp lệ']);
             exit;
@@ -119,7 +119,7 @@ class WishlistController extends Controller {
     }
 
     /**
-     * Check if package is in wishlist (AJAX endpoint)
+     * kiem tra package co trong yeu thich (ajax endpoint)
      */
     public function check($packageId = 0) {
         header('Content-Type: application/json');
@@ -138,7 +138,7 @@ class WishlistController extends Controller {
     }
 
     /**
-     * Get all wishlist package IDs for current user (AJAX endpoint)
+     * lay tat ca package id yeu thich cua nguoi dung hien tai (ajax endpoint)
      */
     public function getIds() {
         header('Content-Type: application/json');

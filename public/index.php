@@ -1,22 +1,22 @@
-<?php
+﻿<?php
 session_start();
 
 define("ROOT", dirname(__DIR__));
 define("APP", ROOT . "/app");
 
-// Base URL with subdirectory support
+// Tao base url co ho tro thu muc con
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 $host = $_SERVER['HTTP_HOST'];
 
-// Calculate base path - get the directory containing the project (one level up from public)
-// SCRIPT_NAME will be something like /tour1/public/index.php, we want /tour1
+// Tinh duong dan goc cua du an (len 1 cap tu thu muc public)
+// Vi du SCRIPT_NAME la /tour1/public/index.php thi lay /tour1
 $scriptPath = $_SERVER['SCRIPT_NAME'];
 $basePath = dirname(dirname($scriptPath));
 
-// Clean up the path
+// Chuan hoa duong dan
 $basePath = rtrim(str_replace('\\', '/', $basePath), '/');
 
-// Ensure it starts with /
+// Dam bao duong dan bat dau bang /
 if ($basePath === '' || $basePath === '.') {
     $basePath = '';
 } elseif ($basePath[0] !== '/') {
@@ -25,7 +25,7 @@ if ($basePath === '' || $basePath === '.') {
 
 define("BASE_URL", $protocol . '://' . $host . $basePath . '/');
 
-// Autoload Helper class
+// Nap tu dong lop ho tro
 require_once ROOT . "/core/Helper.php";
 
 spl_autoload_register(function ($className) {
@@ -60,7 +60,7 @@ if (file_exists($routeFile)) {
 $requestPath = isset($_GET['url']) ? trim($_GET['url'], '/') : '';
 $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-// Route API theo kieu khai bao route; fallback ve App cho web MVC cu
+// Dieu huong api theo route khai bao; neu khong khop thi dung app mvc cu
 $isMatched = $router->dispatch($requestPath, $requestMethod);
 if (!$isMatched) {
     $app = new App();

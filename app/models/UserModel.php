@@ -58,25 +58,25 @@ class UserModel extends Model
             return false;
         }
         
-        // Support both old MD5 and new password_hash
+        // Ho tro ca md5 cu va password_hash moi
         if (strlen($user->Password) === 32 && ctype_xdigit($user->Password)) {
-            // Old MD5 hash - verify and upgrade
+            // Mat khau md5 cu - kiem tra va nang cap
             if ($user->Password === md5($password)) {
-                // Upgrade to password_hash
+                // Nang cap sang password_hash
                 $newHash = password_hash($password, PASSWORD_DEFAULT);
                 $this->updatePassword($email, $newHash);
                 return true;
             }
             return false;
         } else {
-            // New password_hash
+            // Mat khau password_hash moi
             return password_verify($password, $user->Password);
         }
     }
 
     public function updatePassword($email, $newpassword)
     {
-        // Ensure password is hashed if it's not already
+        // Dam bao mat khau duoc bam neu chua bam
         $isAlreadyHashed = (strlen($newpassword) >= 60 && (strpos($newpassword, '$2y$') === 0 || strpos($newpassword, '$2a$') === 0 || strpos($newpassword, '$2x$') === 0));
         
         if (!$isAlreadyHashed) {
@@ -103,7 +103,7 @@ class UserModel extends Model
 
     public function resetPassword($email, $mobile, $newpassword)
     {
-        // Hash the password
+        // Bam mat khau
         $hashedPassword = password_hash($newpassword, PASSWORD_DEFAULT);
         
         $sql =
@@ -126,7 +126,7 @@ class UserModel extends Model
 
     public function createUser($fname, $mnumber, $email, $password)
     {
-        // Hash the password
+        // Bam mat khau
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         
         $sql =

@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 
-// Health check
+// Kiem tra trang thai api
 $router->get('/api', 'api@index');
 
-// Tours
+// Nhom api tour
 $router->get('/api/tours', 'api@tours');
 $router->get('/api/tours/:id', 'api@tours');
 $router->post('/api/tours', 'api@tours');
@@ -11,7 +11,7 @@ $router->put('/api/tours/:id', 'api@tours');
 $router->patch('/api/tours/:id', 'api@tours');
 $router->delete('/api/tours/:id', 'api@tours');
 
-// Auth
+// Nhom xac thuc
 $router->post('/api/auth/register', function () {
     (new ApiController())->auth('register');
 });
@@ -19,28 +19,28 @@ $router->post('/api/auth/login', function () {
     (new ApiController())->auth('login');
 });
 
-// Users
+// Nhom nguoi dung
 $router->get('/api/users/:email', 'api@users');
 $router->put('/api/users/:email', 'api@users');
 $router->patch('/api/users/:email', 'api@users');
 
-// Bookings
+// Nhom dat tour
 $router->post('/api/bookings', 'api@bookings');
 $router->get('/api/bookings/:email', 'api@bookings');
 $router->patch('/api/bookings/:id', 'api@bookings');
 
-// Wishlist
+// Nhom yeu thich
 $router->get('/api/wishlist/:email', 'api@wishlist');
 $router->post('/api/wishlist', 'api@wishlist');
 $router->delete('/api/wishlist/:email/:packageId', 'api@wishlist');
 
-// Reviews
+// Nhom danh gia
 $router->get('/api/tours/:id/reviews', 'api@reviews');
 $router->post('/api/tours/:id/reviews', 'api@reviews');
 $router->patch('/api/tours/:id/reviews/me', 'api@reviews');
 $router->delete('/api/tours/:id/reviews/me', 'api@reviews');
 
-// OPTIONS for browser preflight
+// Khai bao options cho preflight cors
 $router->options('/api', 'api@index');
 $router->options('/api/tours', 'api@tours');
 $router->options('/api/tours/:id', 'api@tours');

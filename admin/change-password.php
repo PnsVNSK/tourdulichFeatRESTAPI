@@ -15,7 +15,7 @@ if(isset($_POST['submit']))
 	$confirmpassword = $_POST['confirmpassword'] ?? '';
 	$username = $_SESSION['alogin'];
 	
-	// Validate inputs
+	// Kiem tra du lieu dau vao
 	if (empty($password) || empty($newpassword) || empty($confirmpassword)) {
 		$error = "Vui lòng nhập đầy đủ thông tin";
 	} elseif ($newpassword !== $confirmpassword) {
@@ -30,13 +30,13 @@ if(isset($_POST['submit']))
 		$admin = $query->fetch(PDO::FETCH_OBJ);
 		
 		if ($admin) {
-			// Support both old MD5 and new password_hash
+			// Ho tro ca md5 cu va password_hash moi
 			$passwordValid = false;
 			if (strlen($admin->Password) === 32 && ctype_xdigit($admin->Password)) {
-				// Old MD5 hash
+				// Mat khau md5 cu
 				$passwordValid = ($admin->Password === md5($password));
 			} else {
-				// New password_hash
+				// Mat khau password_hash moi
 				$passwordValid = password_verify($password, $admin->Password);
 			}
 			

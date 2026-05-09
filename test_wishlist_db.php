@@ -4,13 +4,13 @@
  * Access this file via: http://localhost/tour1/test_wishlist_db.php
  */
 
-// Start output buffering
+// Bat dau dem bo dem output
 ob_start();
 
 echo "<h1>Wishlist Database Test</h1>";
 echo "<hr>";
 
-// Load environment variables
+// Nap bien moi truong
 $dotenv_path = __DIR__ . '/.env';
 if (file_exists($dotenv_path)) {
     $lines = file($dotenv_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -29,7 +29,7 @@ if (file_exists($dotenv_path)) {
     }
 }
 
-// Database credentials
+// Thong tin ket noi co so du lieu
 $dbHost = getenv('DB_HOST') ?: 'localhost';
 $dbUser = getenv('DB_USER') ?: 'root';
 $dbPass = getenv('DB_PASS') ?: '';
@@ -43,7 +43,7 @@ echo "Database: $dbName\n";
 echo "</pre>";
 
 try {
-    // Connect to database
+    // Ket noi co so du lieu
     $dbh = new PDO(
         "mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4",
         $dbUser,
@@ -57,7 +57,7 @@ try {
     
     echo "<h2>2. Database Connection: <span style='color: green;'>✓ SUCCESS</span></h2>";
     
-    // Check if tblwishlist table exists
+    // Kiem tra bang tblwishlist co ton tai
     echo "<h2>3. Check tblwishlist Table</h2>";
     $query = $dbh->query("SHOW TABLES LIKE 'tblwishlist'");
     $tableExists = $query->rowCount() > 0;
@@ -65,7 +65,7 @@ try {
     if ($tableExists) {
         echo "<p style='color: green;'>✓ Table 'tblwishlist' exists</p>";
         
-        // Get table structure
+        // Lay cau truc bang
         echo "<h3>Table Structure:</h3>";
         echo "<pre>";
         $query = $dbh->query("DESCRIBE tblwishlist");
@@ -81,7 +81,7 @@ try {
         }
         echo "</pre>";
         
-        // Get indexes
+        // Lay danh sach chi muc
         echo "<h3>Table Indexes:</h3>";
         echo "<pre>";
         $query = $dbh->query("SHOW INDEX FROM tblwishlist");
@@ -95,13 +95,13 @@ try {
         }
         echo "</pre>";
         
-        // Count records
+        // Dem so ban ghi
         echo "<h3>Record Count:</h3>";
         $query = $dbh->query("SELECT COUNT(*) as count FROM tblwishlist");
         $result = $query->fetch(PDO::FETCH_OBJ);
         echo "<p>Total records: <strong>{$result->count}</strong></p>";
         
-        // Show sample records if any
+        // Hien thi ban ghi mau neu co
         if ($result->count > 0) {
             echo "<h3>Sample Records (first 5):</h3>";
             echo "<table border='1' cellpadding='5' style='border-collapse: collapse;'>";
@@ -123,7 +123,7 @@ try {
         echo "<p>Please run the database.sql script to create the table.</p>";
     }
     
-    // Check if tbltourpackages exists
+    // Kiem tra bang tbltourpackages co ton tai
     echo "<h2>4. Check tbltourpackages Table</h2>";
     $query = $dbh->query("SHOW TABLES LIKE 'tbltourpackages'");
     $packageTableExists = $query->rowCount() > 0;
@@ -137,7 +137,7 @@ try {
         echo "<p style='color: red;'>✗ Table 'tbltourpackages' does NOT exist!</p>";
     }
     
-    // Check if tblusers exists
+    // Kiem tra bang tblusers co ton tai
     echo "<h2>5. Check tblusers Table</h2>";
     $query = $dbh->query("SHOW TABLES LIKE 'tblusers'");
     $usersTableExists = $query->rowCount() > 0;
@@ -181,6 +181,6 @@ echo "<hr>";
 echo "<p><em>Test completed at: " . date('Y-m-d H:i:s') . "</em></p>";
 echo "<p><a href='index.php'>← Back to Home</a></p>";
 
-// Flush output
+// Day bo dem output
 ob_end_flush();
 ?>

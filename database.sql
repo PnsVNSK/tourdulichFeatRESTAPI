@@ -1,5 +1,5 @@
 -- ============================================
--- DATABASE tour - CLEAN & FIXED
+-- co so du lieu tour da duoc don dep va sua loi
 -- ============================================
 
 CREATE DATABASE IF NOT EXISTS `tour` 
@@ -12,7 +12,7 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ============================================
--- DROP TABLES
+-- xoa bang cu
 -- ============================================
 DROP TABLE IF EXISTS `tblitinerary`;
 DROP TABLE IF EXISTS `tbltourreviews`;
@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `tblusers`;
 DROP TABLE IF EXISTS `tbladmin`;
 
 -- ============================================
--- TABLES
+-- tao bang
 -- ============================================
 
 CREATE TABLE `tbladmin` (
@@ -145,7 +145,7 @@ CREATE TABLE `tbltourreviews` (
 ) ENGINE=InnoDB;
 
 -- ============================================
--- FOREIGN KEYS
+-- khoa ngoai
 -- ============================================
 
 ALTER TABLE `tblbooking`
@@ -180,9 +180,9 @@ ON DELETE CASCADE;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============================================
--- SEED DATA
+-- du lieu mau
 -- ============================================
--- Mat khau khach (tblusers) trong file nay: plain text "123456" (luu MD5 e10adc3949ba59abbe56e057f20f883e).
+-- mat khau nguoi dung (tblusers) la "123456", dang luu md5.
 
 INSERT INTO `tbladmin` VALUES
 (1, 'admin', 'f925916e2754e5e03f75dd58a5733251', '2017-05-13 11:18:49');
@@ -191,8 +191,8 @@ INSERT INTO `tblusers` VALUES
 (12, 'Le Van Uy', '0763165881', 'leuy26011@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2025-11-20 04:20:33', NULL, NULL, NULL, NULL, NULL),
 (13, 'Le Van Uy', '0389378485', 'leuy260105@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2025-11-21 03:14:09', NULL, NULL, NULL, NULL, NULL);
 
--- Du lieu cu ben tren duoc GIU NGUYEN.
--- Duoi day la du lieu bo sung de test CRUD (20 dong moi bang chinh).
+-- du lieu cu ben tren duoc giu nguyen.
+-- ben duoi la du lieu bo sung de test crud (20 dong moi moi bang chinh).
 
 INSERT INTO `tblusers` (`id`, `FullName`, `MobileNumber`, `EmailId`, `Password`, `Address`, `DateOfBirth`, `Gender`) VALUES
 (101, 'User 01', '0910000001', 'user01@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Da Nang', '1998-01-01', 'Nam'),

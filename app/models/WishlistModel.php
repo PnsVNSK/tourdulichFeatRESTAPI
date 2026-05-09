@@ -4,11 +4,11 @@ require_once(ROOT . '/core/Model.php');
 
 class WishlistModel extends Model {
     /**
-     * Add a tour package to user's wishlist
+     * them goi tour vao danh sach yeu thich
      */
     public function addToWishlist($userEmail, $packageId) {
         try {
-            // Check if already exists to avoid duplicate key error
+            // Kiem tra ton tai truoc de tranh loi trung khoa
             if ($this->isInWishlist($userEmail, $packageId)) {
                 return true; // Already in wishlist, consider it success
             }
@@ -19,14 +19,14 @@ class WishlistModel extends Model {
             $query->bindParam(':packageId', $packageId, PDO::PARAM_INT);
             return $query->execute();
         } catch (PDOException $e) {
-            // Log error for debugging
+            // Ghi log loi de debug
             error_log("WishlistModel::addToWishlist Error: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Remove a tour package from user's wishlist
+     * xoa goi tour khoi danh sach yeu thich
      */
     public function removeFromWishlist($userEmail, $packageId) {
         try {
@@ -36,14 +36,14 @@ class WishlistModel extends Model {
             $query->bindParam(':packageId', $packageId, PDO::PARAM_INT);
             return $query->execute();
         } catch (PDOException $e) {
-            // Log error for debugging
+            // Ghi log loi de debug
             error_log("WishlistModel::removeFromWishlist Error: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Get all wishlist items for a user with full tour package details
+     * lay danh sach yeu thich kem chi tiet goi tour
      */
     public function getWishlistByUser($userEmail) {
         $sql = "SELECT w.id, w.PackageId, w.CreatedAt, 
@@ -60,7 +60,7 @@ class WishlistModel extends Model {
     }
 
     /**
-     * Check if a package is in user's wishlist
+     * kiem tra goi tour co trong danh sach yeu thich
      */
     public function isInWishlist($userEmail, $packageId) {
         try {
@@ -78,7 +78,7 @@ class WishlistModel extends Model {
     }
 
     /**
-     * Get array of package IDs in user's wishlist
+     * lay mang id goi tour trong danh sach yeu thich
      */
     public function getWishlistPackageIds($userEmail) {
         $sql = "SELECT PackageId FROM tblwishlist WHERE UserEmail = :email";
@@ -95,7 +95,7 @@ class WishlistModel extends Model {
     }
 
     /**
-     * Toggle wishlist status (add if not exists, remove if exists)
+     * dao trang thai yeu thich (chua co thi them, co roi thi xoa)
      */
     public function toggleWishlist($userEmail, $packageId) {
         try {
@@ -111,7 +111,7 @@ class WishlistModel extends Model {
     }
 
     /**
-     * Get wishlist count for a user
+     * dem so luong yeu thich cua nguoi dung
      */
     public function getWishlistCount($userEmail) {
         $sql = "SELECT COUNT(*) as count FROM tblwishlist WHERE UserEmail = :email";

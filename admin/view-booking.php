@@ -8,7 +8,7 @@ if(strlen($_SESSION['alogin'])==0)
 	exit;
 }
 
-// Get booking ID
+// Lay booking id
 $bid = intval($_GET['bid'] ?? 0);
 
 if($bid <= 0) {
@@ -16,7 +16,7 @@ if($bid <= 0) {
 	exit;
 }
 
-// Fetch booking details
+// Lay chi tiet booking
 $sql = "SELECT tblbooking.*,
 	tblusers.FullName as fname,
 	tblusers.MobileNumber as mnumber,
@@ -40,7 +40,7 @@ if(!$booking) {
 	exit;
 }
 
-// Handle status update
+// Xu ly cap nhat trang thai
 $msg = '';
 $error = '';
 if(isset($_POST['update_status'])) {
@@ -48,7 +48,7 @@ if(isset($_POST['update_status'])) {
 	$cancelReason = trim($_POST['cancel_reason'] ?? '');
 	
 	if($newStatus >= 0 && $newStatus <= 2) {
-		// For cancellation (status = 2), also set CancelledBy and CancelReason
+		// Neu huy (status = 2) thi cap nhat them CancelledBy va CancelReason
 		if($newStatus == 2) {
 			$sql_update = "UPDATE tblbooking SET status=:status, CancelledBy=:cancelby, CancelReason=:cancelreason WHERE BookingId=:bid";
 			$query_update = $dbh->prepare($sql_update);
@@ -64,7 +64,7 @@ if(isset($_POST['update_status'])) {
 		
 		if($query_update->execute()) {
 			$msg = "Cập nhật trạng thái thành công";
-			// Refresh booking data
+			// Tai lai du lieu booking
 			$query_refresh = $dbh->prepare($sql);
 			$query_refresh->bindParam(':bid', $bid, PDO::PARAM_INT);
 			$query_refresh->execute();
@@ -75,7 +75,7 @@ if(isset($_POST['update_status'])) {
 	}
 }
 
-// Handle update of customer message (CustomerMessage)
+// Cap nhat tin nhan khach hang (CustomerMessage)
 if(isset($_POST['update_message'])) {
     $customerMessage = trim($_POST['customer_message'] ?? '');
     $sql_update_msg = "UPDATE tblbooking SET CustomerMessage=:message WHERE BookingId=:bid";
@@ -84,7 +84,7 @@ if(isset($_POST['update_message'])) {
 	$query_update_msg->bindParam(':bid', $bid, PDO::PARAM_INT);
 	if($query_update_msg->execute()) {
 		$msg = "Đã cập nhật lời nhắn gửi khách";
-		// Refresh booking data
+		// Tai lai du lieu booking
 		$query_refresh = $dbh->prepare($sql);
 		$query_refresh->bindParam(':bid', $bid, PDO::PARAM_INT);
 		$query_refresh->execute();
@@ -94,7 +94,7 @@ if(isset($_POST['update_message'])) {
 	}
 }
 
-// Handle update of internal admin notes (AdminNotes)
+// Cap nhat ghi chu noi bo admin (AdminNotes)
 if(isset($_POST['update_admin_notes'])) {
 	$adminNotes = trim($_POST['admin_notes'] ?? '');
 	$sql_update_notes = "UPDATE tblbooking SET AdminNotes=:notes WHERE BookingId=:bid";

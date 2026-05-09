@@ -17,13 +17,13 @@ if(isset($_POST['login']))
 		$admin = $query->fetch(PDO::FETCH_OBJ);
 		
 		if ($admin) {
-			// Support both old MD5 and new password_hash
+			// Ho tro ca md5 cu va password_hash moi
 			$passwordValid = false;
 			if (strlen($admin->Password) === 32 && ctype_xdigit($admin->Password)) {
-				// Old MD5 hash - verify and upgrade
+				// Mat khau md5 cu - kiem tra va nang cap
 				if ($admin->Password === md5($password)) {
 					$passwordValid = true;
-					// Upgrade to password_hash
+					// Nang cap sang password_hash
 					$newHash = password_hash($password, PASSWORD_DEFAULT);
 					$updateSql = "UPDATE tbladmin SET Password=:newpassword WHERE UserName=:uname";
 					$updateQuery = $dbh->prepare($updateSql);
@@ -32,7 +32,7 @@ if(isset($_POST['login']))
 					$updateQuery->execute();
 				}
 			} else {
-				// New password_hash
+				// Mat khau password_hash moi
 				$passwordValid = password_verify($password, $admin->Password);
 			}
 			

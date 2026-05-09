@@ -54,7 +54,7 @@ class TourController extends Controller {
             $_SESSION['error'] = "Không tìm thấy đặt tour";
         }
 
-        // Redirect back to referring page
+        // Quay lai trang vua truy cap
         $referer = $_SERVER['HTTP_REFERER'] ?? '';
         if (strpos($referer, 'user/account') !== false) {
             header('location:' . BASE_URL . 'user/account');

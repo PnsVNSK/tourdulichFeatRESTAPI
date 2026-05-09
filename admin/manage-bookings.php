@@ -14,7 +14,7 @@ if(isset($_REQUEST['bkid']) && isset($_POST['cancel_reason']))
 	$status=2;
 	$cancelby='a';
 	$cancelReason = $_POST['cancel_reason'];
-	// TODO: Send cancellation reason to user (will be implemented later)
+	// todo: gui ly do huy cho nguoi dung (se bo sung sau)
 	$sql = "UPDATE tblbooking SET status=:status,CancelledBy=:cancelby,CancelReason=:cancelReason WHERE BookingId=:bid";
 	$query = $dbh->prepare($sql);
 	$query -> bindParam(':status',$status, PDO::PARAM_STR);

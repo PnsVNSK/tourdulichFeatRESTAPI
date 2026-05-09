@@ -52,7 +52,7 @@ class UserController extends Controller {
             $gender = trim($_POST['gender'] ?? '');
             $email = $_SESSION['login'];
 
-            // Validate inputs
+            // Kiem tra du lieu dau vao
             if (empty($name) || empty($mobileno)) {
                 $_SESSION['error'] = "Vui lòng nhập đầy đủ họ tên và số điện thoại";
                 header('location:' . BASE_URL . 'user/account');
@@ -65,7 +65,7 @@ class UserController extends Controller {
                 exit;
             }
 
-            // Handle avatar upload
+            // Xu ly tai anh dai dien
             $userModel = $this->model('UserModel');
             if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
                 $allowed = ['jpg', 'jpeg', 'png', 'gif'];
@@ -78,13 +78,13 @@ class UserController extends Controller {
                     exit;
                 }
 
-                // Create upload directory if it doesn't exist
+                // Tao thu muc upload neu chua co
                 $uploadDir = ROOT . '/public/uploads/avatars/';
                 if (!file_exists($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
 
-                // Generate unique filename
+                // Tao ten file duy nhat
                 $newFilename = uniqid() . '_' . time() . '.' . $filetype;
                 $uploadPath = $uploadDir . $newFilename;
 
@@ -134,7 +134,7 @@ class UserController extends Controller {
             $mobileno = trim($_POST['mobileno'] ?? '');
             $email = $_SESSION['login'];
 
-            // Validate inputs
+            // Kiem tra du lieu dau vao
             if (empty($name) || empty($mobileno)) {
                 $_SESSION['error'] = "Vui lòng nhập đầy đủ thông tin";
                 header('location:' . BASE_URL . 'user/profile');
@@ -184,7 +184,7 @@ class UserController extends Controller {
             $newpassword = $_POST['newpassword'] ?? '';
             $email = $_SESSION['login'];
 
-            // Validate passwords
+            // Kiem tra mat khau
             if (empty($password) || empty($newpassword)) {
                 $_SESSION['error'] = "Vui lòng nhập đầy đủ thông tin";
                 header('location:' . BASE_URL . 'user/change-password');
@@ -229,7 +229,7 @@ class UserController extends Controller {
             $email = trim($_POST['email'] ?? '');
             $newpassword = $_POST['newpassword'] ?? '';
 
-            // Validate inputs
+            // Kiem tra du lieu dau vao
             if (empty($email) || empty($contact) || empty($newpassword)) {
                 $_SESSION['error'] = "Vui lòng nhập đầy đủ thông tin";
                 header('location:' . BASE_URL . 'user/forgot-password');
@@ -292,7 +292,7 @@ class UserController extends Controller {
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
 
-            // Validate inputs
+            // Kiem tra du lieu dau vao
             if (empty($fname) || empty($mnumber) || empty($email) || empty($password)) {
                 $_SESSION['error'] = "Vui lòng nhập đầy đủ thông tin";
                 header('location:' . BASE_URL);
@@ -319,7 +319,7 @@ class UserController extends Controller {
 
             $userModel = $this->model('UserModel');
             
-            // Check if email already exists
+            // Kiem tra email da ton tai
             if ($userModel->checkEmailAvailability($email)) {
                 $_SESSION['error'] = "Email này đã được sử dụng";
                 header('location:' . BASE_URL);
@@ -345,7 +345,7 @@ class UserController extends Controller {
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
 
-            // Validate inputs
+            // Kiem tra du lieu dau vao
             if (empty($email) || empty($password)) {
                 $_SESSION['error'] = "Vui lòng nhập đầy đủ thông tin";
                 header('location:' . BASE_URL);

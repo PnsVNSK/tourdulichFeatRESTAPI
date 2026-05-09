@@ -1,5 +1,5 @@
 <?php
-// Load environment variables from .env file
+// Nap bien moi truong from .env file
 $dotenv_path = dirname(__DIR__) . '/.env';
 if (file_exists($dotenv_path)) {
     $lines = file($dotenv_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -18,13 +18,13 @@ if (file_exists($dotenv_path)) {
     }
 }
 
-// DB credentials.
+// Thong tin ket noi co so du lieu
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_NAME', getenv('DB_NAME') ?: 'tour');
 
-// Establish database connection.
+// Thiet lap ket noi co so du lieu
 try
 {
 $dbh = new PDO(

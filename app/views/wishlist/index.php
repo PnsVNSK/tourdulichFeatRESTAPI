@@ -110,7 +110,7 @@
 <?php include ROOT . "/includes/signin.php"; ?>
 <?php include ROOT . "/includes/write-us.php"; ?>
 <script>
-    // Pass BASE_URL from PHP to JavaScript
+    // Truyen BASE_URL tu php sang javascript
     window.BASE_URL_FROM_PHP = '<?php echo BASE_URL; ?>';
 </script>
 <script src="<?php echo BASE_URL; ?>public/js/wishlist.js?v=1.1"></script>

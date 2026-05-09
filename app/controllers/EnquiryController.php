@@ -42,7 +42,7 @@ class EnquiryController extends Controller {
             $subject = trim($_POST['subject'] ?? '');
             $description = trim($_POST['description'] ?? '');
 
-            // Validate inputs
+            // Kiem tra du lieu dau vao
             if (empty($fname) || empty($email) || empty($mobile) || empty($subject) || empty($description)) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin";
                 header('location:' . BASE_URL . 'enquiry');

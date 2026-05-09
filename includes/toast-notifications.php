@@ -1,10 +1,10 @@
 <?php
 /**
- * Toast Notification Helper
+ * tien ich thong bao toast
  * Hiển thị thông báo từ PHP session
  */
 
-// Hiển thị toast notification nếu có message trong session
+// Hien thi thong bao toast neu co message trong session
 if (isset($_SESSION['msg']) && !empty($_SESSION['msg'])): ?>
     <div data-toast-success="<?php echo htmlentities($_SESSION['msg']); ?>" style="display:none;"></div>
 <?php unset($_SESSION['msg']); endif;

@@ -199,7 +199,7 @@ class PackageController extends Controller {
             $numberofpeople = intval($_POST['numberofpeople'] ?? 1);
             $comment = trim($_POST['comment'] ?? '');
 
-            // Loc
+            // Kiem tra du lieu dat tour
             if (empty($departureDate)) {
                 $_SESSION['error'] = "Vui lòng chọn ngày khởi hành";
                 header('Location: ' . BASE_URL . 'package/details/' . $pid);
@@ -212,7 +212,7 @@ class PackageController extends Controller {
                 exit;
             }
 
-            // Validate date
+            // Kiem tra ngay khoi hanh hop le
             $departureTimestamp = strtotime($departureDate);
             $todayTimestamp = strtotime('today');
 
@@ -234,12 +234,12 @@ class PackageController extends Controller {
                 exit;
             }
 
-            // Get package price and calculate total
+            // Lay gia goi tour va tinh tong tien
             $packageModel = $this->model('PackageModel');
             $package = $packageModel->getPackageById($pid);
             $totalprice = $package->PackagePrice * $numberofpeople;
 
-            // Use same date for both fromdate and todate for database compatibility
+            // Tam dung cung 1 ngay cho fromdate va todate de phu hop cau truc db
             $bookingModel = $this->model('BookingModel');
             $lastInsertId = $bookingModel->createBooking($pid, $useremail, $departureDate, $departureDate, $comment, $numberofpeople, $totalprice);
 

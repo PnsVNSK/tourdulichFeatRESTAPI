@@ -1,5 +1,5 @@
 <?php
-// Quick test script to add a customer message to booking 11
+// Script test nhanh de them tin nhan khach hang vao booking 11
 include 'admin/includes/config.php';
 
 $bid = 11;
