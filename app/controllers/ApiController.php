@@ -1,5 +1,7 @@
 <?php
 
+use Http\Response;
+
 class ApiController extends Controller
 {
     private $tourModel;
@@ -490,23 +492,12 @@ class ApiController extends Controller
 
     private function sendJson($payload, $status = 200)
     {
-        http_response_code($status);
-        header('Content-Type: application/json; charset=utf-8');
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization');
-
-        echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        exit;
+        (new Response())->json($payload, $status);
     }
 
     /** HTTP 204 — thanh cong, khong co body (REST cho DELETE) */
     private function sendNoContent()
     {
-        http_response_code(204);
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization');
-        exit;
+        (new Response())->noContent();
     }
 }

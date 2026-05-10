@@ -2,13 +2,12 @@
 
 ### --- Kiem tra API ---
 GET {{base}}/api
-
 ### --- Tours: danh sach (co the them query: q, location, min_price, max_price, limit, offset) ---
 GET {{base}}/api/tours
 GET {{base}}/api/tours?location=Da%20Nang&limit=10
 
 ### --- Tours: chi tiet 1 tour (thay 201 bang PackageId co that) ---
-GET {{base}}/api/tours/201
+GET {{base}}/api/tours/204
 
 ### --- Tours: tao moi (can du du lieu; luu y ten cot PackageFetures dung chinh ta trong DB) ---
 POST {{base}}/api/tours
@@ -144,3 +143,5 @@ Content-Type: application/json
 {
   "userEmail": "test-api-user@example.com"
 }
+
+GET {{base}}/api/bookings/1
