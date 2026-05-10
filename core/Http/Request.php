@@ -2,12 +2,6 @@
 
 namespace Http;
 
-/**
- * HTTP Request — tuong duong Request trong
- * {@see https://github.com/afgprogrammer/PHP-MVC-REST-API/blob/master/System/Http/Request.php}
- *
- * @package Http
- */
 class Request
 {
     /** @var array<string, mixed> */

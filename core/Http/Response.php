@@ -2,12 +2,6 @@
 
 namespace Http;
 
-/**
- * HTTP Response — status code & header giống hướng tiếp cận
- * {@see https://github.com/afgprogrammer/PHP-MVC-REST-API/tree/master/System/Http}
- *
- * @package Http
- */
 class Response
 {
     /** @var array<int, string> */
