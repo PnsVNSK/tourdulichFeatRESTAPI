@@ -1,5 +1,3 @@
-# Vi du goi API (REST Client / VS Code / Cursor)
-# Sua @base cho dung may ban (Apache + mod_rewrite bat)
 @base = http://localhost/ej/tourdulich/public
 
 ### --- Kiem tra API ---
