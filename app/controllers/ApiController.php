@@ -31,14 +31,15 @@ class ApiController extends Controller
                 'DELETE /api/tours/{id}',
                 'POST /api/auth/register',
                 'POST /api/auth/login',
-                'GET /api/users/{email}',
-                'PUT/PATCH /api/users/{email}',
+                'GET /api/users/{id}',
+                'PUT/PATCH /api/users/{id}',
                 'POST /api/bookings',
-                'GET /api/bookings/{email}',
+                'GET /api/bookings?userEmail=',
+                'GET /api/bookings/{id}',
                 'PATCH /api/bookings/{id}',
-                'GET /api/wishlist/{email}',
+                'GET /api/wishlist?userEmail=',
                 'POST /api/wishlist',
-                'DELETE /api/wishlist/{email}/{packageId}',
+                'DELETE /api/wishlist/{packageId}?userEmail=',
                 'GET /api/tours/{id}/reviews',
                 'POST /api/tours/{id}/reviews',
                 'PATCH /api/tours/{id}/reviews/me',
@@ -108,7 +109,7 @@ class ApiController extends Controller
                 return $this->sendJson(['error' => 'Khong tim thay tour'], 404);
             }
             $this->tourModel->delete((int)$id);
-            return $this->sendJson(['message' => 'Xoa tour thanh cong']);
+            return $this->sendNoContent();
         }
 
         return $this->sendJson(['error' => 'Method khong ho tro'], 405);
@@ -138,20 +139,20 @@ class ApiController extends Controller
         return $this->sendJson(['error' => 'Action khong hop le'], 400);
     }
 
-    public function users($email = null)
+    public function users($id = null)
     {
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         if ($method === 'OPTIONS') {
             return $this->sendJson([]);
         }
 
-        if ($email === null) {
-            return $this->sendJson(['error' => 'Thieu email'], 400);
+        if ($id === null || !ctype_digit((string)$id)) {
+            return $this->sendJson(['error' => 'Thieu hoac id user khong hop le'], 400);
         }
-        $decodedEmail = urldecode($email);
+        $userId = (int)$id;
 
         if ($method === 'GET') {
-            $user = $this->userModel->getByEmail($decodedEmail);
+            $user = $this->userModel->getById($userId);
             if (!$user) {
                 return $this->sendJson(['error' => 'Khong tim thay user'], 404);
             }
@@ -163,7 +164,7 @@ class ApiController extends Controller
             if ($payload === null) {
                 return $this->sendJson(['error' => 'JSON khong hop le'], 400);
             }
-            $existing = $this->userModel->getByEmail($decodedEmail);
+            $existing = $this->userModel->getById($userId);
             if (!$existing) {
                 return $this->sendJson(['error' => 'Khong tim thay user'], 404);
             }
@@ -171,8 +172,8 @@ class ApiController extends Controller
             if (empty($merged['FullName']) || empty($merged['MobileNumber'])) {
                 return $this->sendJson(['error' => 'FullName va MobileNumber la bat buoc'], 422);
             }
-            $this->userModel->updateProfile($decodedEmail, $merged);
-            return $this->sendJson(['message' => 'Cap nhat profile thanh cong', 'data' => $this->userModel->getByEmail($decodedEmail)]);
+            $this->userModel->updateProfileById($userId, $merged);
+            return $this->sendJson(['message' => 'Cap nhat profile thanh cong', 'data' => $this->userModel->getById($userId)]);
         }
 
         return $this->sendJson(['error' => 'Method khong ho tro'], 405);
@@ -195,15 +196,28 @@ class ApiController extends Controller
 
         if ($method === 'GET') {
             if ($idOrEmail === null) {
-                return $this->sendJson(['error' => 'Thieu email'], 400);
+                $email = isset($_GET['userEmail']) ? trim((string)$_GET['userEmail']) : '';
+                if ($email === '') {
+                    return $this->sendJson(['error' => 'Can query userEmail de lay danh sach booking'], 400);
+                }
+                return $this->sendJson(['data' => $this->bookingModel->getByUserEmail($email)]);
             }
-            $email = urldecode($idOrEmail);
-            return $this->sendJson(['data' => $this->bookingModel->getByUserEmail($email)]);
+            if (!ctype_digit((string)$idOrEmail)) {
+                return $this->sendJson(['error' => 'Id booking khong hop le'], 400);
+            }
+            $booking = $this->bookingModel->getById((int)$idOrEmail);
+            if (!$booking) {
+                return $this->sendJson(['error' => 'Khong tim thay booking'], 404);
+            }
+            return $this->sendJson(['data' => $booking]);
         }
 
         if ($method === 'PATCH') {
             if ($idOrEmail === null) {
                 return $this->sendJson(['error' => 'Thieu id booking'], 400);
+            }
+            if (!ctype_digit((string)$idOrEmail)) {
+                return $this->sendJson(['error' => 'Id booking khong hop le'], 400);
             }
             $payload = $this->getJsonInput();
             if ($payload === null || empty($payload['action'])) {
@@ -212,21 +226,27 @@ class ApiController extends Controller
             if ($payload['action'] !== 'cancel') {
                 return $this->sendJson(['error' => 'Chi ho tro action=cancel'], 400);
             }
-            if (empty($payload['userEmail'])) {
-                return $this->sendJson(['error' => 'Can userEmail de huy booking'], 400);
+            $userEmail = '';
+            if (!empty($payload['userEmail'])) {
+                $userEmail = trim((string)$payload['userEmail']);
+            } elseif (!empty($_GET['userEmail'])) {
+                $userEmail = trim((string)$_GET['userEmail']);
+            }
+            if ($userEmail === '') {
+                return $this->sendJson(['error' => 'Can userEmail (body hoac query) de huy booking'], 400);
             }
             $booking = $this->bookingModel->getById((int)$idOrEmail);
             if (!$booking) {
                 return $this->sendJson(['error' => 'Khong tim thay booking'], 404);
             }
-            $this->bookingModel->cancelByUser((int)$idOrEmail, $payload['userEmail']);
+            $this->bookingModel->cancelByUser((int)$idOrEmail, $userEmail);
             return $this->sendJson(['message' => 'Huy booking thanh cong']);
         }
 
         return $this->sendJson(['error' => 'Method khong ho tro'], 405);
     }
 
-    public function wishlist($email = null, $packageId = null)
+    public function wishlist($packageId = null)
     {
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         if ($method === 'OPTIONS') {
@@ -234,10 +254,11 @@ class ApiController extends Controller
         }
 
         if ($method === 'GET') {
-            if ($email === null) {
-                return $this->sendJson(['error' => 'Thieu email'], 400);
+            $email = isset($_GET['userEmail']) ? trim((string)$_GET['userEmail']) : '';
+            if ($email === '') {
+                return $this->sendJson(['error' => 'Can query userEmail'], 400);
             }
-            return $this->sendJson(['data' => $this->wishlistModel->getWishlistByUser(urldecode($email))]);
+            return $this->sendJson(['data' => $this->wishlistModel->getWishlistByUser($email)]);
         }
 
         if ($method === 'POST') {
@@ -253,11 +274,15 @@ class ApiController extends Controller
         }
 
         if ($method === 'DELETE') {
-            if ($email === null || $packageId === null) {
-                return $this->sendJson(['error' => 'Can email va packageId tren url'], 400);
+            if ($packageId === null || !ctype_digit((string)$packageId)) {
+                return $this->sendJson(['error' => 'Thieu hoac packageId khong hop le'], 400);
             }
-            $this->wishlistModel->removeFromWishlist(urldecode($email), (int)$packageId);
-            return $this->sendJson(['message' => 'Xoa wishlist thanh cong']);
+            $email = isset($_GET['userEmail']) ? trim((string)$_GET['userEmail']) : '';
+            if ($email === '') {
+                return $this->sendJson(['error' => 'Can query userEmail'], 400);
+            }
+            $this->wishlistModel->removeFromWishlist($email, (int)$packageId);
+            return $this->sendNoContent();
         }
 
         return $this->sendJson(['error' => 'Method khong ho tro'], 405);
@@ -472,6 +497,16 @@ class ApiController extends Controller
         header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
         echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    /** HTTP 204 — thanh cong, khong co body (REST cho DELETE) */
+    private function sendNoContent()
+    {
+        http_response_code(204);
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization');
         exit;
     }
 }

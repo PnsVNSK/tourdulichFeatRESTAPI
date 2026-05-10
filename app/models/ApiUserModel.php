@@ -17,6 +17,14 @@ class ApiUserModel extends Model
         return (int)$this->db->lastInsertId();
     }
 
+    public function getById($id)
+    {
+        $stmt = $this->db->prepare("SELECT id, FullName, MobileNumber, EmailId, Address, DateOfBirth, Gender, Avatar, RegDate FROM tblusers WHERE id = :id");
+        $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getByEmail($email)
     {
         $stmt = $this->db->prepare("SELECT id, FullName, MobileNumber, EmailId, Address, DateOfBirth, Gender, Avatar, RegDate FROM tblusers WHERE EmailId = :email");
@@ -73,6 +81,15 @@ class ApiUserModel extends Model
         $stmt->bindValue(':gender', $data['Gender'] ?? null, PDO::PARAM_STR);
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         return $stmt->execute();
+    }
+
+    public function updateProfileById($userId, $data)
+    {
+        $user = $this->getById($userId);
+        if (!$user) {
+            return false;
+        }
+        return $this->updateProfile($user['EmailId'], $data);
     }
 
     public function updatePassword($email, $newPassword)

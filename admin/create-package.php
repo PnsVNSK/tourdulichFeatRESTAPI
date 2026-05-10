@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 error_reporting(0);
 include('includes/config.php');
@@ -29,7 +29,7 @@ if(isset($_POST['addItinerary']) && isset($_GET['pid'])) {
 	$query->bindParam(':sortOrder', $sortOrder, PDO::PARAM_INT);
 	$query->execute();
 	
-	$itineraryMsg = "ÄÃ£ thÃªm lá»™ trÃ¬nh thÃ nh cÃ´ng";
+	$itineraryMsg = "Đã thêm lộ trình thành công";
 }
 
 // Xu ly sua lich trinh
@@ -48,7 +48,7 @@ if(isset($_POST['updateItinerary']) && isset($_GET['pid'])) {
 	$query->bindParam(':sortOrder', $sortOrder, PDO::PARAM_INT);
 	$query->execute();
 	
-	$itineraryMsg = "ÄÃ£ cáº­p nháº­t lá»™ trÃ¬nh thÃ nh cÃ´ng";
+	$itineraryMsg = "Đã cập nhật lộ trình thành công";
 }
 
 // Xu ly xoa lich trinh
@@ -60,7 +60,7 @@ if(isset($_GET['delItinerary']) && isset($_GET['pid'])) {
 	$query->bindParam(':id', $id, PDO::PARAM_INT);
 	$query->execute();
 	
-	$itineraryMsg = "ÄÃ£ xÃ³a lá»™ trÃ¬nh thÃ nh cÃ´ng";
+	$itineraryMsg = "Đã xóa lộ trình thành công";
 	header('Location: ' . BASE_URL . 'admin/create-package.php?pid=' . $pid);
 	exit;
 }
@@ -82,9 +82,9 @@ $itineraryData = isset($_POST['itineraryData']) ? $_POST['itineraryData'] : '';
 
 // Kiem tra du lieu dau vao
 if (empty($pname) || empty($ptype) || empty($plocation) || empty($tourduration) || $pprice <= 0 || empty($pfeatures) || empty($pdetails)) {
-	$error = "Vui lÃ²ng Ä‘iá»n Ä‘áº§y Ä‘á»§ thÃ´ng tin";
+	$error = "Vui lòng điền đầy đủ thông tin";
 } elseif (!isset($_FILES["packageimage"]) || $_FILES["packageimage"]["error"] !== UPLOAD_ERR_OK) {
-	$error = "Vui lÃ²ng chá»n hÃ¬nh áº£nh";
+	$error = "Vui lòng chọn hình ảnh";
 } else {
 	// Kiem tra file upload bang lop ho tro
 	$validation = Helper::validateImage($_FILES["packageimage"]);
@@ -98,7 +98,7 @@ if (empty($pname) || empty($ptype) || empty($plocation) || empty($tourduration) 
 		if (move_uploaded_file($_FILES["packageimage"]["tmp_name"], $uploadPath)) {
 			// Upload file thanh cong, tiep tuc luu vao co so du lieu
 		} else {
-			$error = "KhÃ´ng thá»ƒ táº£i lÃªn file. Vui lÃ²ng thá»­ láº¡i";
+			$error = "Không thể tải lên file. Vui lòng thử lại";
 		}
 	}
 }
@@ -146,17 +146,17 @@ if (!isset($error)) {
 			$packageCreated = true;
 			$newPackageId = $lastInsertId;
 			$itineraryCount = is_array(json_decode($itineraryData, true)) ? count(json_decode($itineraryData, true)) : 0;
-			$msg = "Táº¡o gÃ³i tour thÃ nh cÃ´ng! " . ($itineraryCount > 0 ? "ÄÃ£ thÃªm $itineraryCount lá»™ trÃ¬nh." : "Báº¡n cÃ³ thá»ƒ thÃªm lá»™ trÃ¬nh bÃªn dÆ°á»›i.");
+			$msg = "Tạo gói tour thành công! " . ($itineraryCount > 0 ? "Đã thêm $itineraryCount lộ trình." : "Bạn có thể thêm lộ trình bên dưới.");
 			// Chuyen ve cung trang kem package id de quan ly lich trinh
 			header('Location: ' . BASE_URL . 'admin/create-package.php?pid=' . $lastInsertId . '&created=1');
 			exit;
 		} else {
-			$error="CÃ³ lá»—i xáº£y ra. Vui lÃ²ng thá»­ láº¡i";
+			$error="Có lỗi xảy ra. Vui lòng thử lại";
 		}
 	} catch(Exception $e) {
 		// Hoan tac transaction khi co loi
 		$dbh->rollBack();
-		$error = "CÃ³ lá»—i xáº£y ra: " . $e->getMessage();
+		$error = "Có lỗi xảy ra: " . $e->getMessage();
 	}
 }
 }
@@ -182,21 +182,21 @@ if(isset($_GET['pid'])) {
 	$itineraries = $query->fetchAll(PDO::FETCH_OBJ);
 	
 	if(isset($_GET['created'])) {
-		$msg = "Táº¡o gÃ³i tour thÃ nh cÃ´ng! BÃ¢y giá» báº¡n cÃ³ thá»ƒ thÃªm lá»™ trÃ¬nh chi tiáº¿t bÃªn dÆ°á»›i.";
+		$msg = "Tạo gói tour thành công! Bây giờ bạn có thể thêm lộ trình chi tiết bên dưới.";
 	}
 }
 
-	$pageTitle = "GoTravel Admin | Táº¡o gÃ³i tour";
+	$pageTitle = "GoTravel Admin | Tạo gói tour";
 	$currentPage = 'create-package';
 	include('includes/layout-start.php');
 	?>
 		<section class="admin-page-head">
 			<div>
-				<h1><?php echo $packageCreated ? 'HoÃ n thiá»‡n gÃ³i tour' : 'Táº¡o gÃ³i tour'; ?></h1>
-				<p><?php echo $packageCreated ? 'GÃ³i tour Ä‘Ã£ Ä‘Æ°á»£c táº¡o. ThÃªm lá»™ trÃ¬nh chi tiáº¿t Ä‘á»ƒ hoÃ n thiá»‡n.' : 'ThÃªm nhanh gÃ³i tour má»›i vá»›i Ä‘áº§y Ä‘á»§ thÃ´ng tin vÃ  hÃ¬nh áº£nh.'; ?></p>
+				<h1><?php echo $packageCreated ? 'Hoàn thiện gói tour' : 'Tạo gói tour'; ?></h1>
+				<p><?php echo $packageCreated ? 'Gói tour đã được tạo. Thêm lộ trình chi tiết để hoàn thiện.' : 'Thêm nhanh gói tour mới với đầy đủ thông tin và hình ảnh.'; ?></p>
 			</div>
 			<?php if($packageCreated) { ?>
-				<a class="btn btn-ghost" href="<?php echo BASE_URL; ?>admin/manage-packages.php">â† Quay láº¡i danh sÃ¡ch</a>
+				<a class="btn btn-ghost" href="<?php echo BASE_URL; ?>admin/manage-packages.php">← Quay lại danh sách</a>
 			<?php } ?>
 		</section>
 		<?php if($error){?><div class="alert error"><?php echo htmlentities($error); ?> </div><?php } ?>
@@ -206,63 +206,63 @@ if(isset($_GET['pid'])) {
 		<?php if(!$packageCreated) { ?>
 		<!-- Package Creation Form -->
 		<section class="card">
-			<h3>ThÃ´ng tin gÃ³i tour</h3>
+			<h3>Thông tin gói tour</h3>
 			<form name="package" method="post" enctype="multipart/form-data" class="form-stack" id="packageForm">
 				<input type="hidden" name="itineraryData" id="itineraryDataInput" value="">
 				<div class="form-grid">
 					<div class="form-group">
-						<label for="packagename">TÃªn gÃ³i</label>
+						<label for="packagename">Tên gói</label>
 						<input type="text" name="packagename" id="packagename" required>
 					</div>
 					<div class="form-group">
-						<label for="packagetype">Loáº¡i gÃ³i</label>
-						<input type="text" name="packagetype" id="packagetype" placeholder="Gia Ä‘Ã¬nh / Cáº·p Ä‘Ã´i / ..." required>
+						<label for="packagetype">Loại gói</label>
+						<input type="text" name="packagetype" id="packagetype" placeholder="Gia đình / Cặp đôi / ..." required>
 					</div>
 					<div class="form-group">
-						<label for="packagelocation">Äá»‹a Ä‘iá»ƒm</label>
+						<label for="packagelocation">Địa điểm</label>
 						<input type="text" name="packagelocation" id="packagelocation" required>
 					</div>
-					<div class="form-group">					<label for="tourduration">Thá»i gian tour</label>
-					<input type="text" name="tourduration" id="tourduration" placeholder="VD: 2 NgÃ y 1 ÄÃªm / 5 NgÃ y 4 ÄÃªm / Trong ngÃ y" required>
+					<div class="form-group">					<label for="tourduration">Thời gian tour</label>
+					<input type="text" name="tourduration" id="tourduration" placeholder="VD: 2 Ngày 1 Đêm / 5 Ngày 4 Đêm / Trong ngày" required>
 				</div>
-				<div class="form-group">						<label for="packageprice">GiÃ¡ gÃ³i (VNÄ)</label>
+				<div class="form-group">						<label for="packageprice">Giá gói (VNĐ)</label>
 						<input type="number" min="0" step="1000" name="packageprice" id="packageprice" required>
-						<small style="color: var(--muted); font-size: 0.85rem;">Nháº­p giÃ¡ báº±ng VNÄ. VÃ­ dá»¥: 4.800.000</small>
+						<small style="color: var(--muted); font-size: 0.85rem;">Nhập giá bằng VNĐ. Ví dụ: 4.800.000</small>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="packagefeatures">Äiá»ƒm ná»•i báº­t</label>
-					<input type="text" name="packagefeatures" id="packagefeatures" placeholder="VÃ­ dá»¥: ÄÆ°a Ä‘Ã³n sÃ¢n bay miá»…n phÃ­" required>
+					<label for="packagefeatures">Điểm nổi bật</label>
+					<input type="text" name="packagefeatures" id="packagefeatures" placeholder="Ví dụ: Đưa đón sân bay miễn phí" required>
 				</div>
 				<div class="form-group">
-					<label for="packagedetails">Chi tiáº¿t gÃ³i</label>
-					<textarea name="packagedetails" id="packagedetails" placeholder="Nháº­p mÃ´ táº£ chi tiáº¿t" required></textarea>
+					<label for="packagedetails">Chi tiết gói</label>
+					<textarea name="packagedetails" id="packagedetails" placeholder="Nhập mô tả chi tiết" required></textarea>
 				</div>
 				<div class="form-group">
-					<label for="packageimage">HÃ¬nh áº£nh gÃ³i</label>
+					<label for="packageimage">Hình ảnh gói</label>
 					<input type="file" name="packageimage" id="packageimage" accept="image/*" required>
 				</div>
 				<div>
-					<button type="submit" name="submit" class="btn btn-primary">Táº¡o gÃ³i tour</button>
-					<button type="reset" class="btn btn-ghost">LÃ m má»›i</button>
+					<button type="submit" name="submit" class="btn btn-primary">Tạo gói tour</button>
+					<button type="reset" class="btn btn-ghost">Làm mới</button>
 				</div>
 			</form>
 		</section>
 		
 		<!-- Itinerary Management Section (Pre-Creation) -->
 		<section class="card" style="margin-top: 2rem;">
-			<h3>Lá»™ trÃ¬nh chi tiáº¿t (TÃ¹y chá»n)</h3>
-			<p style="color: var(--muted); margin-bottom: 1.5rem;">ThÃªm cÃ¡c Ä‘iá»ƒm trong lá»™ trÃ¬nh tour. Báº¡n cÃ³ thá»ƒ thÃªm sau khi táº¡o gÃ³i tour.</p>
+			<h3>Lộ trình chi tiết (Tùy chọn)</h3>
+			<p style="color: var(--muted); margin-bottom: 1.5rem;">Thêm các điểm trong lộ trình tour. Bạn có thể thêm sau khi tạo gói tour.</p>
 			
 			<div id="itineraryPreviewTable" style="display: none; overflow-x: auto; margin-bottom: 2rem;">
 				<table class="table">
 					<thead>
 						<tr>
 							<th style="width: 50px;">STT</th>
-							<th style="width: 200px;">Thá»i gian</th>
-							<th>Hoáº¡t Ä‘á»™ng</th>
-							<th style="width: 80px;">Thá»© tá»±</th>
-							<th style="width: 150px;">Thao tÃ¡c</th>
+							<th style="width: 200px;">Thời gian</th>
+							<th>Hoạt động</th>
+							<th style="width: 80px;">Thứ tự</th>
+							<th style="width: 150px;">Thao tác</th>
 						</tr>
 					</thead>
 					<tbody id="itineraryPreviewBody">
@@ -270,27 +270,27 @@ if(isset($_GET['pid'])) {
 				</table>
 			</div>
 			
-			<p id="emptyItineraryMsg" style="text-align: center; padding: 2rem; color: var(--muted);">ChÆ°a cÃ³ lá»™ trÃ¬nh nÃ o. HÃ£y thÃªm lá»™ trÃ¬nh bÃªn dÆ°á»›i.</p>
+			<p id="emptyItineraryMsg" style="text-align: center; padding: 2rem; color: var(--muted);">Chưa có lộ trình nào. Hãy thêm lộ trình bên dưới.</p>
 			
 			<!-- Add Itinerary Form -->
 			<div style="background: var(--bg); padding: 1.5rem; border-radius: 8px;">
-				<h4 style="margin-bottom: 1rem;">ThÃªm lá»™ trÃ¬nh má»›i</h4>
+				<h4 style="margin-bottom: 1rem;">Thêm lộ trình mới</h4>
 				<div class="form-stack">
 					<div class="form-grid">
 						<div class="form-group">
-							<label for="newTimeLabel">Thá»i gian *</label>
-							<input type="text" id="newTimeLabel" placeholder="VD: NgÃ y 1 - SÃ¡ng, 08:00 - 10:00">
+							<label for="newTimeLabel">Thời gian *</label>
+							<input type="text" id="newTimeLabel" placeholder="VD: Ngày 1 - Sáng, 08:00 - 10:00">
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label for="newActivity">Hoáº¡t Ä‘á»™ng *</label>
-						<textarea id="newActivity" placeholder="MÃ´ táº£ chi tiáº¿t hoáº¡t Ä‘á»™ng trong thá»i gian nÃ y..."></textarea>
+						<label for="newActivity">Hoạt động *</label>
+						<textarea id="newActivity" placeholder="Mô tả chi tiết hoạt động trong thời gian này..."></textarea>
 					</div>
 					
 					<div style="display: flex; gap: 1rem;">
-						<button type="button" onclick="addItineraryItem()" class="btn">ThÃªm lá»™ trÃ¬nh</button>
-						<button type="button" onclick="clearItineraryForm()" class="btn btn-ghost">LÃ m má»›i</button>
+						<button type="button" onclick="addItineraryItem()" class="btn">Thêm lộ trình</button>
+						<button type="button" onclick="clearItineraryForm()" class="btn btn-ghost">Làm mới</button>
 					</div>
 				</div>
 			</div>
@@ -299,23 +299,23 @@ if(isset($_GET['pid'])) {
 		
 		<!-- Package Created - Show Summary -->
 		<section class="card">
-			<h3>âœ… GÃ³i tour Ä‘Ã£ táº¡o</h3>
+			<h3>✅ Gói tour đã tạo</h3>
 			<div class="form-grid">
-				<div><strong>TÃªn gÃ³i:</strong> <?php echo htmlentities($package->PackageName); ?></div>
-				<div><strong>Loáº¡i:</strong> <?php echo htmlentities($package->PackageType); ?></div>
-				<div><strong>Äá»‹a Ä‘iá»ƒm:</strong> <?php echo htmlentities($package->PackageLocation); ?></div>
-				<div><strong>Thá»i gian:</strong> <?php echo htmlentities($package->TourDuration); ?></div>
-				<div><strong>GiÃ¡:</strong> <?php echo number_format($package->PackagePrice, 0, ',', '.') . ' Ä‘'; ?></div>
+				<div><strong>Tên gói:</strong> <?php echo htmlentities($package->PackageName); ?></div>
+				<div><strong>Loại:</strong> <?php echo htmlentities($package->PackageType); ?></div>
+				<div><strong>Địa điểm:</strong> <?php echo htmlentities($package->PackageLocation); ?></div>
+				<div><strong>Thời gian:</strong> <?php echo htmlentities($package->TourDuration); ?></div>
+				<div><strong>Giá:</strong> <?php echo number_format($package->PackagePrice, 0, ',', '.') . ' đ'; ?></div>
 			</div>
 			<div style="margin-top: 1rem;">
-				<a href="<?php echo BASE_URL; ?>admin/update-package.php?pid=<?php echo $newPackageId; ?>" class="btn btn-ghost">Chá»‰nh sá»­a thÃ´ng tin gÃ³i</a>
+				<a href="<?php echo BASE_URL; ?>admin/update-package.php?pid=<?php echo $newPackageId; ?>" class="btn btn-ghost">Chỉnh sửa thông tin gói</a>
 			</div>
 		</section>
 		
 		<!-- Itinerary Management Section -->
 		<section class="card" style="margin-top: 2rem;">
-			<h3>Quáº£n lÃ½ lá»™ trÃ¬nh chi tiáº¿t</h3>
-			<p style="color: var(--muted); margin-bottom: 1.5rem;">ThÃªm cÃ¡c Ä‘iá»ƒm trong lá»™ trÃ¬nh tour cá»§a báº¡n.</p>
+			<h3>Quản lý lộ trình chi tiết</h3>
+			<p style="color: var(--muted); margin-bottom: 1.5rem;">Thêm các điểm trong lộ trình tour của bạn.</p>
 			
 			<?php if(count($itineraries) > 0) { ?>
 				<div style="overflow-x: auto; margin-bottom: 2rem;">
@@ -323,10 +323,10 @@ if(isset($_GET['pid'])) {
 						<thead>
 							<tr>
 								<th style="width: 50px;">STT</th>
-								<th style="width: 200px;">Thá»i gian</th>
-								<th>Hoáº¡t Ä‘á»™ng</th>
-								<th style="width: 80px;">Thá»© tá»±</th>
-								<th style="width: 150px;">Thao tÃ¡c</th>
+								<th style="width: 200px;">Thời gian</th>
+								<th>Hoạt động</th>
+								<th style="width: 80px;">Thứ tự</th>
+								<th style="width: 150px;">Thao tác</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -343,10 +343,10 @@ if(isset($_GET['pid'])) {
 									<td><?php echo $item->SortOrder; ?></td>
 									<td>
 										<div style="display: flex; gap: 0.5rem;">
-											<button type="button" class="btn btn-primary btn-small btn-edit-itinerary">Sá»­a</button>
+											<button type="button" class="btn btn-primary btn-small btn-edit-itinerary">Sửa</button>
 											<a href="?pid=<?php echo $newPackageId; ?>&delItinerary=<?php echo $item->ItineraryId; ?>" 
 											   class="btn btn-danger btn-small" 
-											   onclick="return confirm('Báº¡n cÃ³ cháº¯c cháº¯n muá»‘n xÃ³a?');">XÃ³a</a>
+											   onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</a>
 										</div>
 									</td>
 								</tr>
@@ -355,35 +355,35 @@ if(isset($_GET['pid'])) {
 					</table>
 				</div>
 			<?php } else { ?>
-				<p style="text-align: center; padding: 2rem; color: var(--muted);">ChÆ°a cÃ³ lá»™ trÃ¬nh nÃ o. HÃ£y thÃªm lá»™ trÃ¬nh bÃªn dÆ°á»›i.</p>
+				<p style="text-align: center; padding: 2rem; color: var(--muted);">Chưa có lộ trình nào. Hãy thêm lộ trình bên dưới.</p>
 			<?php } ?>
 			
 			<!-- Add/Edit Itinerary Form -->
 			<div style="background: var(--bg); padding: 1.5rem; border-radius: 8px;">
-				<h4 style="margin-bottom: 1rem;" id="itineraryFormTitle">ThÃªm lá»™ trÃ¬nh má»›i</h4>
+				<h4 style="margin-bottom: 1rem;" id="itineraryFormTitle">Thêm lộ trình mới</h4>
 				<form method="post" id="itineraryForm" class="form-stack">
 					<input type="hidden" name="itineraryId" id="itineraryId" value="">
 					<input type="hidden" name="sortOrder" id="sortOrder" value="0">
 					
 					<div class="form-grid">
 						<div class="form-group">
-							<label for="timeLabel">Thá»i gian *</label>
+							<label for="timeLabel">Thời gian *</label>
 							<input type="text" name="timeLabel" id="timeLabel" required 
-							       placeholder="VD: NgÃ y 1 - SÃ¡ng, 08:00 - 10:00">
+							       placeholder="VD: Ngày 1 - Sáng, 08:00 - 10:00">
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label for="activity">Hoáº¡t Ä‘á»™ng *</label>
+						<label for="activity">Hoạt động *</label>
 						<textarea name="activity" id="activity" required 
-						          placeholder="MÃ´ táº£ chi tiáº¿t hoáº¡t Ä‘á»™ng trong thá»i gian nÃ y..."></textarea>
+						          placeholder="Mô tả chi tiết hoạt động trong thời gian này..."></textarea>
 					</div>
 					
 					<div style="display: flex; gap: 1rem;">
-						<button type="submit" name="addItinerary" id="btnAddItinerary" class="btn">ThÃªm lá»™ trÃ¬nh</button>
-						<button type="submit" name="updateItinerary" id="btnUpdateItinerary" class="btn" style="display: none; background: var(--accent);">Cáº­p nháº­t</button>
-						<button type="button" onclick="resetItineraryForm()" class="btn btn-ghost">Há»§y / LÃ m má»›i</button>
-						<a href="<?php echo BASE_URL; ?>admin/manage-packages.php" class="btn btn-ghost">HoÃ n táº¥t & Quay láº¡i</a>
+						<button type="submit" name="addItinerary" id="btnAddItinerary" class="btn">Thêm lộ trình</button>
+						<button type="submit" name="updateItinerary" id="btnUpdateItinerary" class="btn" style="display: none; background: var(--accent);">Cập nhật</button>
+						<button type="button" onclick="resetItineraryForm()" class="btn btn-ghost">Hủy / Làm mới</button>
+						<a href="<?php echo BASE_URL; ?>admin/manage-packages.php" class="btn btn-ghost">Hoàn tất & Quay lại</a>
 					</div>
 				</form>
 			</div>
@@ -407,7 +407,7 @@ if(isset($_GET['pid'])) {
 		});
 		
 		function editItinerary(id, timeLabel, activity, sortOrder) {
-			document.getElementById('itineraryFormTitle').textContent = 'Chá»‰nh sá»­a lá»™ trÃ¬nh';
+			document.getElementById('itineraryFormTitle').textContent = 'Chỉnh sửa lộ trình';
 			document.getElementById('itineraryId').value = id;
 			document.getElementById('timeLabel').value = timeLabel;
 			document.getElementById('activity').value = activity;
@@ -420,7 +420,7 @@ if(isset($_GET['pid'])) {
 		}
 		
 		function resetItineraryForm() {
-			document.getElementById('itineraryFormTitle').textContent = 'ThÃªm lá»™ trÃ¬nh má»›i';
+			document.getElementById('itineraryFormTitle').textContent = 'Thêm lộ trình mới';
 			document.getElementById('itineraryId').value = '';
 			document.getElementById('timeLabel').value = '';
 			document.getElementById('activity').value = '';
@@ -437,7 +437,7 @@ if(isset($_GET['pid'])) {
 			const activity = document.getElementById('newActivity').value.trim();
 			
 			if(!timeLabel || !activity) {
-				alert('Vui lÃ²ng Ä‘iá»n Ä‘áº§y Ä‘á»§ thÃ´ng tin lá»™ trÃ¬nh');
+				alert('Vui lòng điền đầy đủ thông tin lộ trình');
 				return;
 			}
 			
@@ -456,7 +456,7 @@ if(isset($_GET['pid'])) {
 		}
 		
 		function removeItineraryItem(index) {
-			if(confirm('Báº¡n cÃ³ cháº¯c cháº¯n muá»‘n xÃ³a lá»™ trÃ¬nh nÃ y?')) {
+			if(confirm('Bạn có chắc chắn muốn xóa lộ trình này?')) {
 				tempItineraries.splice(index, 1);
 				// Cap nhat thu tu sap xep
 				tempItineraries.forEach((item, idx) => {
@@ -490,7 +490,7 @@ if(isset($_GET['pid'])) {
 					<td>${escapeHtml(item.activity)}</td>
 					<td>${item.sortOrder}</td>
 					<td>
-						<button type="button" class="btn btn-danger btn-small" onclick="removeItineraryItem(${index})">XÃ³a</button>
+						<button type="button" class="btn btn-danger btn-small" onclick="removeItineraryItem(${index})">Xóa</button>
 					</td>
 				`;
 			});
