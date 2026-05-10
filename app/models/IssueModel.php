@@ -20,4 +20,15 @@ class IssueModel extends Model {
         $query->execute();
         return $this->db->lastInsertId();
     }
+
+    public function getById($id)
+    {
+        $id = (int) $id;
+        $sql = 'SELECT * FROM tblissues WHERE id = :id LIMIT 1';
+        $query = $this->db->prepare($sql);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
+
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
 }

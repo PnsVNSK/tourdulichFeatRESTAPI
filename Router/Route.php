@@ -35,6 +35,16 @@ $router->get('/api/wishlist', 'api@wishlist');
 $router->post('/api/wishlist', 'api@wishlist');
 $router->delete('/api/wishlist/:packageId', 'api@wishlist');
 
+// Nhom ho tro / issue (tblissues)
+$router->get('/api/issues', 'api@issues');
+$router->post('/api/issues', 'api@issues');
+$router->get('/api/issues/:id', 'api@issues');
+
+// Nhom lien he / enquiry (tblenquiry)
+$router->get('/api/enquiries', 'api@enquiries');
+$router->post('/api/enquiries', 'api@enquiries');
+$router->get('/api/enquiries/:id', 'api@enquiries');
+
 // Nhom danh gia
 $router->get('/api/tours/:id/reviews', 'api@reviews');
 $router->post('/api/tours/:id/reviews', 'api@reviews');
@@ -56,5 +66,9 @@ $router->options('/api/bookings', 'api@bookings');
 $router->options('/api/bookings/:id', 'api@bookings');
 $router->options('/api/wishlist', 'api@wishlist');
 $router->options('/api/wishlist/:packageId', 'api@wishlist');
+$router->options('/api/issues', 'api@issues');
+$router->options('/api/issues/:id', 'api@issues');
+$router->options('/api/enquiries', 'api@enquiries');
+$router->options('/api/enquiries/:id', 'api@enquiries');
 $router->options('/api/tours/:id/reviews', 'api@reviews');
 $router->options('/api/tours/:id/reviews/me', 'api@reviews');

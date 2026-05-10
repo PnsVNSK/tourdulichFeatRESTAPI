@@ -10,6 +10,8 @@ class ApiController extends Controller
     private $wishlistModel;
     private $itineraryModel;
     private $reviewModel;
+    private $issueModel;
+    private $enquiryModel;
 
     public function __construct()
     {
@@ -19,6 +21,8 @@ class ApiController extends Controller
         $this->wishlistModel = $this->model('WishlistModel');
         $this->itineraryModel = $this->model('ItineraryModel');
         $this->reviewModel = $this->model('ApiReviewModel');
+        $this->issueModel = $this->model('IssueModel');
+        $this->enquiryModel = $this->model('EnquiryModel');
     }
 
     public function index()
@@ -42,6 +46,12 @@ class ApiController extends Controller
                 'GET /api/wishlist?userEmail=',
                 'POST /api/wishlist',
                 'DELETE /api/wishlist/{packageId}?userEmail=',
+                'GET /api/issues?userEmail=',
+                'POST /api/issues',
+                'GET /api/issues/{id}?userEmail=',
+                'GET /api/enquiries?userEmail=',
+                'POST /api/enquiries',
+                'GET /api/enquiries/{id}?userEmail=',
                 'GET /api/tours/{id}/reviews',
                 'POST /api/tours/{id}/reviews',
                 'PATCH /api/tours/{id}/reviews/me',
@@ -285,6 +295,145 @@ class ApiController extends Controller
             }
             $this->wishlistModel->removeFromWishlist($email, (int)$packageId);
             return $this->sendNoContent();
+        }
+
+        return $this->sendJson(['error' => 'Method khong ho tro'], 405);
+    }
+
+    /**
+     * GET /api/issues?userEmail= — danh sach issue theo email
+     * POST /api/issues — { userEmail, issue, description }
+     * GET /api/issues/{id}?userEmail= — chi tiet (dung chu issue)
+     */
+    public function issues($id = null)
+    {
+        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        if ($method === 'OPTIONS') {
+            return $this->sendJson([]);
+        }
+
+        if ($method === 'GET' && $id === null) {
+            $email = isset($_GET['userEmail']) ? trim((string)$_GET['userEmail']) : '';
+            if ($email === '') {
+                return $this->sendJson(['error' => 'Can query userEmail de lay danh sach issue'], 400);
+            }
+            return $this->sendJson(['data' => $this->issueModel->getIssuesByUserEmail($email)]);
+        }
+
+        if ($method === 'GET' && $id !== null) {
+            if (!ctype_digit((string)$id)) {
+                return $this->sendJson(['error' => 'Id issue khong hop le'], 400);
+            }
+            $email = isset($_GET['userEmail']) ? trim((string)$_GET['userEmail']) : '';
+            if ($email === '') {
+                return $this->sendJson(['error' => 'Can query userEmail de xem chi tiet issue'], 400);
+            }
+            $row = $this->issueModel->getById((int)$id);
+            if (!$row) {
+                return $this->sendJson(['error' => 'Khong tim thay issue'], 404);
+            }
+            if (strcasecmp((string)$row->UserEmail, $email) !== 0) {
+                return $this->sendJson(['error' => 'Khong co quyen xem issue nay'], 403);
+            }
+            return $this->sendJson(['data' => $row]);
+        }
+
+        if ($method === 'POST') {
+            $payload = $this->getJsonInput();
+            if ($payload === null) {
+                return $this->sendJson(['error' => 'JSON khong hop le'], 400);
+            }
+            $userEmail = isset($payload['userEmail']) ? trim((string)$payload['userEmail']) : '';
+            $issue = isset($payload['issue']) ? trim((string)$payload['issue']) : '';
+            $description = isset($payload['description']) ? trim((string)$payload['description']) : '';
+            if ($userEmail === '' || $issue === '' || $description === '') {
+                return $this->sendJson(['error' => 'Can userEmail, issue va description'], 422);
+            }
+            if (strlen($issue) > 100) {
+                return $this->sendJson(['error' => 'Tieu de issue toi da 100 ky tu'], 422);
+            }
+            if (strlen($description) > 5000) {
+                return $this->sendJson(['error' => 'Mo ta toi da 5000 ky tu'], 422);
+            }
+            $newId = $this->issueModel->createIssue($userEmail, $issue, $description);
+            $created = $this->issueModel->getById((int)$newId);
+
+            return $this->sendJson([
+                'message' => 'Gui yeu cau ho tro thanh cong',
+                'data' => $created ?: ['id' => (int)$newId],
+            ], 201);
+        }
+
+        return $this->sendJson(['error' => 'Method khong ho tro'], 405);
+    }
+
+    /**
+     * GET /api/enquiries?userEmail= — danh sach enquiry theo email nguoi gui
+     * POST /api/enquiries — { fullName, email, mobile, subject, description }
+     * GET /api/enquiries/{id}?userEmail= — chi tiet (dung chu enquiry)
+     */
+    public function enquiries($id = null)
+    {
+        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        if ($method === 'OPTIONS') {
+            return $this->sendJson([]);
+        }
+
+        if ($method === 'GET' && $id === null) {
+            $email = isset($_GET['userEmail']) ? trim((string)$_GET['userEmail']) : '';
+            if ($email === '') {
+                return $this->sendJson(['error' => 'Can query userEmail de lay danh sach enquiry'], 400);
+            }
+            return $this->sendJson(['data' => $this->enquiryModel->getByEmail($email)]);
+        }
+
+        if ($method === 'GET' && $id !== null) {
+            if (!ctype_digit((string)$id)) {
+                return $this->sendJson(['error' => 'Id enquiry khong hop le'], 400);
+            }
+            $email = isset($_GET['userEmail']) ? trim((string)$_GET['userEmail']) : '';
+            if ($email === '') {
+                return $this->sendJson(['error' => 'Can query userEmail de xem chi tiet enquiry'], 400);
+            }
+            $row = $this->enquiryModel->getById((int)$id);
+            if (!$row) {
+                return $this->sendJson(['error' => 'Khong tim thay enquiry'], 404);
+            }
+            if (strcasecmp((string)$row->EmailId, $email) !== 0) {
+                return $this->sendJson(['error' => 'Khong co quyen xem enquiry nay'], 403);
+            }
+            return $this->sendJson(['data' => $row]);
+        }
+
+        if ($method === 'POST') {
+            $payload = $this->getJsonInput();
+            if ($payload === null) {
+                return $this->sendJson(['error' => 'JSON khong hop le'], 400);
+            }
+            $fname = isset($payload['fullName']) ? trim((string)$payload['fullName']) : '';
+            $mail = isset($payload['email']) ? trim((string)$payload['email']) : '';
+            $mobile = isset($payload['mobile']) ? trim((string)$payload['mobile']) : '';
+            $subject = isset($payload['subject']) ? trim((string)$payload['subject']) : '';
+            $description = isset($payload['description']) ? trim((string)$payload['description']) : '';
+            if ($fname === '' || $mail === '' || $mobile === '' || $subject === '' || $description === '') {
+                return $this->sendJson(['error' => 'Can fullName, email, mobile, subject, description'], 422);
+            }
+            if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+                return $this->sendJson(['error' => 'Email khong hop le'], 422);
+            }
+            if (!preg_match('/^[0-9]{10}$/', $mobile)) {
+                return $this->sendJson(['error' => 'So dien thoai phai co 10 chu so'], 422);
+            }
+            if (strlen($subject) > 100) {
+                return $this->sendJson(['error' => 'Tieu de toi da 100 ky tu'], 422);
+            }
+            $newId = $this->enquiryModel->createEnquiry($fname, $mail, $mobile, $subject, $description);
+            $created = $this->enquiryModel->getById((int)$newId);
+
+            return $this->sendJson([
+                'message' => 'Gui lien he thanh cong',
+                'data' => $created ?: ['id' => (int)$newId],
+            ], 201);
         }
 
         return $this->sendJson(['error' => 'Method khong ho tro'], 405);
