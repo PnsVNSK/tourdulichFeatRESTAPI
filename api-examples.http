@@ -1,0 +1,148 @@
+# Vi du goi API (REST Client / VS Code / Cursor)
+# Sua @base cho dung may ban (Apache + mod_rewrite bat)
+@base = http://localhost/ej/tourdulich/public
+
+### --- Kiem tra API ---
+GET {{base}}/api
+
+### --- Tours: danh sach (co the them query: q, location, min_price, max_price, limit, offset) ---
+GET {{base}}/api/tours
+GET {{base}}/api/tours?location=Da%20Nang&limit=10
+
+### --- Tours: chi tiet 1 tour (thay 201 bang PackageId co that) ---
+GET {{base}}/api/tours/201
+
+### --- Tours: tao moi (can du du lieu; luu y ten cot PackageFetures dung chinh ta trong DB) ---
+POST {{base}}/api/tours
+Content-Type: application/json
+
+{
+  "PackageName": "Tour vi du API",
+  "PackageType": "Gia dinh",
+  "TourDuration": "2 ngay 1 dem",
+  "PackageLocation": "Ha Noi",
+  "PackagePrice": 2500000,
+  "PackageFetures": "Xe dua don, khach san 3 sao",
+  "PackageDetails": "Mo ta chi tiet tour...",
+  "PackageImage": "tour-demo.jpg"
+}
+
+### --- Tours: cap nhat (thay id; body co the chi gui truong doi) ---
+PATCH {{base}}/api/tours/201
+Content-Type: application/json
+
+{
+  "PackagePrice": 2990000
+}
+
+### --- Tours: xoa (204 No Content, body trong) ---
+DELETE {{base}}/api/tours/999
+
+### --- Auth: dang ky ---
+POST {{base}}/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Nguyen Van A",
+  "mobileNumber": "0909123456",
+  "email": "test-api-user@example.com",
+  "password": "123456"
+}
+
+### --- Auth: dang nhap ---
+POST {{base}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test-api-user@example.com",
+  "password": "123456"
+}
+
+### --- User: lay profile theo id (so trong bang tblusers) ---
+GET {{base}}/api/users/1
+
+### --- User: cap nhat profile ---
+PATCH {{base}}/api/users/1
+Content-Type: application/json
+
+{
+  "FullName": "Nguyen Van A",
+  "MobileNumber": "0909123456",
+  "Address": "Ha Noi",
+  "DateOfBirth": "1990-01-15",
+  "Gender": "Nam"
+}
+
+### --- Bookings: danh sach theo email ---
+GET {{base}}/api/bookings?userEmail=test-api-user@example.com
+
+### --- Bookings: chi tiet 1 booking ---
+GET {{base}}/api/bookings/1
+
+### --- Bookings: dat tour ---
+POST {{base}}/api/bookings
+Content-Type: application/json
+
+{
+  "packageId": 201,
+  "userEmail": "test-api-user@example.com",
+  "fromDate": "2026-06-01",
+  "toDate": "2026-06-03",
+  "numberOfPeople": 2,
+  "comment": "Ghi chu dat tour"
+}
+
+### --- Bookings: huy (PATCH + action cancel) ---
+PATCH {{base}}/api/bookings/1
+Content-Type: application/json
+
+{
+  "action": "cancel",
+  "userEmail": "test-api-user@example.com"
+}
+
+### --- Wishlist: danh sach ---
+GET {{base}}/api/wishlist?userEmail=test-api-user@example.com
+
+### --- Wishlist: them ---
+POST {{base}}/api/wishlist
+Content-Type: application/json
+
+{
+  "userEmail": "test-api-user@example.com",
+  "packageId": 201
+}
+
+### --- Wishlist: xoa (204; userEmail tren query) ---
+DELETE {{base}}/api/wishlist/201?userEmail=test-api-user@example.com
+
+### --- Reviews: danh sach + thong ke tour ---
+GET {{base}}/api/tours/201/reviews?limit=20&offset=0
+
+### --- Reviews: them danh gia ---
+POST {{base}}/api/tours/201/reviews
+Content-Type: application/json
+
+{
+  "userEmail": "test-api-user@example.com",
+  "rating": 5,
+  "note": "Tour rat tot"
+}
+
+### --- Reviews: sua danh gia cua minh ---
+PATCH {{base}}/api/tours/201/reviews/me
+Content-Type: application/json
+
+{
+  "userEmail": "test-api-user@example.com",
+  "rating": 4,
+  "note": "Cap nhat noi dung"
+}
+
+### --- Reviews: xoa danh gia cua minh (co the dung query userEmail) ---
+DELETE {{base}}/api/tours/201/reviews/me
+Content-Type: application/json
+
+{
+  "userEmail": "test-api-user@example.com"
+}
